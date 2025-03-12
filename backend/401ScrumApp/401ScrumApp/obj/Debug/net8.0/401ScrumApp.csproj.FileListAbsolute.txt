@@ -135,3 +135,4 @@ C:\Users\jacob\Source\Repos\401Scrum\backend\401ScrumApp\401ScrumApp\obj\Debug\n
 C:\Users\jacob\Source\Repos\401Scrum\backend\401ScrumApp\401ScrumApp\obj\Debug\net8.0\401ScrumApp.pdb
 C:\Users\jacob\Source\Repos\401Scrum\backend\401ScrumApp\401ScrumApp\obj\Debug\net8.0\401ScrumApp.genruntimeconfig.cache
 C:\Users\jacob\Source\Repos\401Scrum\backend\401ScrumApp\401ScrumApp\obj\Debug\net8.0\ref\401ScrumApp.dll
+C:\Users\jacob\Source\Repos\401Scrum\backend\401ScrumApp\401ScrumApp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

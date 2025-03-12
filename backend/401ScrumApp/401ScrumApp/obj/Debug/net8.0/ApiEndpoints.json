@@ -1,0 +1,43 @@
+[
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetBlessingCounts",
+    "RelativePath": "api/Blessings/blessings/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetInvitationCounts",
+    "RelativePath": "api/Blessings/invitations/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetFilteredVerses",
+    "RelativePath": "api/Blessings/verses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "blessing",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "invitation",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

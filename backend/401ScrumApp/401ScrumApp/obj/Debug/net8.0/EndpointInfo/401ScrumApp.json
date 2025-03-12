@@ -1,0 +1,62 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "401ScrumApp",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Blessings/blessings/count": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/invitations/count": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/verses": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "blessing",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invitation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { }
+}
