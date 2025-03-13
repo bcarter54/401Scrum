@@ -42,17 +42,57 @@ namespace _401ScrumApp.Data
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<object>> GetInvitationCountsByBlessingAsync(string blessing)
+        {
+            return await _context.Verses
+                .Where(v => v.BlessingGroupID == _context.Blessings
+                    .Where(b => b.BlessingGroup == blessing)
+                    .Select(b => b.BlessingGroupID)
+                    .FirstOrDefault())
+                .GroupBy(v => v.InvitationGroup)
+                .Select(g => new { Name = g.Key, Count = g.Count() })
+                .ToListAsync();
+        }
+
+
+        // Get Invitation Groups with count
+        public async Task<IEnumerable<object>> GetInvitationRecordsAsync(string blessing)
+        {
+            return await _context.Verses
+                .Where(v => v.BlessingGroupID ==
+                    _context.Blessings.Where(b => b.BlessingGroup == blessing)
+                    .Select(b => b.BlessingGroupID)
+                    .FirstOrDefault()) // Ensure correct filtering
+                .Select(v => new
+                {
+                    VerseLocation = v.VerseLocation,
+                    Contents = v.Contents,
+                    Invitation = v.InvitationGroup,
+                    Blessing = _context.Blessings
+                        .Where(b => b.BlessingGroupID == v.BlessingGroupID)
+                        .Select(b => b.BlessingGroup)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+        }
+
+
         // Get Verses filtered by Blessing and Invitation
-        public async Task<IEnumerable<Verse>> GetFilteredVersesAsync(string blessing, string invitation)
+        public async Task<IEnumerable<Verse>> GetFilteredVersesAsync(string? blessing, string? invitation)
         {
             var query = _context.Verses.AsQueryable();
 
             if (!string.IsNullOrEmpty(blessing))
             {
-                query = query.Where(v => v.BlessingGroupID ==
-                    _context.Blessings.Where(b => b.BlessingGroup == blessing)
+                var blessingId = _context.Blessings
+                    .Where(b => b.BlessingGroup == blessing)
                     .Select(b => b.BlessingGroupID)
-                    .FirstOrDefault());
+                    .FirstOrDefault();
+
+                if (blessingId != null)
+                {
+                    query = query.Where(v => v.BlessingGroupID == blessingId);
+                }
             }
 
             if (!string.IsNullOrEmpty(invitation))
@@ -62,6 +102,7 @@ namespace _401ScrumApp.Data
 
             return await query.ToListAsync();
         }
+
     }
 }
 

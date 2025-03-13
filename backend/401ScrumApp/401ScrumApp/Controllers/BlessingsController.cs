@@ -24,20 +24,28 @@ namespace _401ScrumApp.Controllers
             return Ok(blessings);
         }
 
-        // Get Invitation Groups with count
         [HttpGet("invitations/count")]
-        public async Task<IActionResult> GetInvitationCounts()
+        public async Task<IActionResult> GetInvitationCounts([FromQuery] string? blessing = null)
         {
-            var invitations = await _repo.GetInvitationCountsAsync();
-            return Ok(invitations);
+            if (string.IsNullOrEmpty(blessing))
+            {
+                var invitations = await _repo.GetInvitationCountsAsync(); // Fetch all invitation counts
+                return Ok(invitations);
+            }
+            else
+            {
+                var filteredInvitations = await _repo.GetInvitationCountsByBlessingAsync(blessing); // Fetch filtered counts
+                return Ok(filteredInvitations);
+            }
         }
 
         // Get verses filtered by Blessing & Invitation
         [HttpGet("verses")]
-        public async Task<IActionResult> GetFilteredVerses([FromQuery] string blessing, [FromQuery] string invitation)
+        public async Task<IActionResult> GetFilteredVerses([FromQuery] string? blessing = null, [FromQuery] string? invitation = null)
         {
             var verses = await _repo.GetFilteredVersesAsync(blessing, invitation);
             return Ok(verses);
         }
+
     }
 }
