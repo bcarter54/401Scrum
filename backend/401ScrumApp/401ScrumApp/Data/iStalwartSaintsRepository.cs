@@ -23,5 +23,8 @@ namespace _401ScrumApp.Data
 
         // Fetch verses filtered by Blessing and/or Invitation Group
         Task<IEnumerable<Verse>> GetFilteredVersesAsync(string blessing, string invitation);
+        
+        Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync();
+
     }
 }

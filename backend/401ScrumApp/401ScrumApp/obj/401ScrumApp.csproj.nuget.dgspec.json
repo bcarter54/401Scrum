@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jacob\\Source\\Repos\\401Scrum\\backend\\401ScrumApp\\401ScrumApp\\401ScrumApp.csproj": {}
+    "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jacob\\Source\\Repos\\401Scrum\\backend\\401ScrumApp\\401ScrumApp\\401ScrumApp.csproj": {
+    "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jacob\\Source\\Repos\\401Scrum\\backend\\401ScrumApp\\401ScrumApp\\401ScrumApp.csproj",
+        "projectUniqueName": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
         "projectName": "401ScrumApp",
-        "projectPath": "C:\\Users\\jacob\\Source\\Repos\\401Scrum\\backend\\401ScrumApp\\401ScrumApp\\401ScrumApp.csproj",
-        "packagesPath": "C:\\Users\\jacob\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jacob\\Source\\Repos\\401Scrum\\backend\\401ScrumApp\\401ScrumApp\\obj\\",
+        "projectPath": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
+        "packagesPath": "/Users/bcarter/.nuget/packages/",
+        "outputPath": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/bcarter/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -94,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

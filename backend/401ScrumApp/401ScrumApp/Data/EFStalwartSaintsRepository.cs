@@ -102,6 +102,14 @@ namespace _401ScrumApp.Data
 
             return await query.ToListAsync();
         }
+        
+        public async Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync()
+        {
+            return await _context.StudyGroups.ToListAsync();
+        }
+        
+        
+
 
     }
 }

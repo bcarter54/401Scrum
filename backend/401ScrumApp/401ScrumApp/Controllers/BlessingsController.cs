@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _401ScrumApp.Data;
+using _401ScrumApp.Models;
 
 namespace _401ScrumApp.Controllers
 {
@@ -46,6 +47,14 @@ namespace _401ScrumApp.Controllers
             var verses = await _repo.GetFilteredVersesAsync(blessing, invitation);
             return Ok(verses);
         }
+        
+        [HttpGet("studygroups/pending")]
+        public async Task<IActionResult> GetPendingStudyGroups()
+        {
+            var studyGroups = await _repo.GetPendingStudyGroupsAsync();
+            return Ok(studyGroups);
+        }
+
 
     }
 }
