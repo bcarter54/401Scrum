@@ -1,9 +1,27 @@
+using _401ScrumApp.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add SQLite Database Connection
+builder.Services.AddDbContext<StalwartSaintsDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("SaintsConnection")));
+
+// Register Repository Pattern
+builder.Services.AddScoped<iStalwartSaintsRepository, EFStalwartSaintsRepository>();
+
+// Enable CORS for React frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactFrontend", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,10 +34,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseCors("AllowReactFrontend");
+app.UseHttpsRedirection();  // Forces all HTTP requests to use HTTPS
+app.UseRouting();
 app.UseAuthorization();
-
-app.MapControllers();
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.Run();
