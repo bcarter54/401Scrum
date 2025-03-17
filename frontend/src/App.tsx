@@ -1,24 +1,22 @@
-import { useState } from 'react'
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Blessings from './Blessings';
+import Admin from './Admin';
 
-import './App.css'
-
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import VideosPage from "./pages/VideosPage";
-
-const App: React.FC = () => {
+function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/videos" element={<VideosPage />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <nav>
+          <Link to="/">Home</Link> | <Link to="/new">New Page</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Blessings />} />
+          <Route path="/new" element={<Admin />} />
+        </Routes>
+      </Router>
+    </>
   );
-};
+}
 
-
-
-
-
-
-export default App
+export default App;
