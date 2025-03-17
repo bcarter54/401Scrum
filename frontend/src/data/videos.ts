@@ -1,6 +1,5 @@
 import { VideoCategory } from "../types/video";
 
-// Convert YouTube share URLs to embed format
 const videos: VideoCategory[] = [
   {
     category: "Gospel of Jesus Christ",
