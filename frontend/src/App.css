@@ -1,42 +1,111 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+div {
+  align-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+/* Overall Page Layout */
+.page-container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;  /* Ensure full width */
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+/* Welcome Section */
+.welcome-section {
   text-align: center;
+  margin-bottom: 40px; /* Add space between welcome and link boxes */
+  width: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.welcome {
+  text-align: center;
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.image-box {
+  align-items: center;
+  width: 80%;   /* Set a max width for image */
+  max-width: 400px;
+  margin: 0 auto 30px;  /* Center image */
+}
+
+.image-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Link Boxes */
+.grid-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;  /* Space between the boxes */
+  width: 100%;
+  max-width: 600px;  /* Limit max width of the boxes */
+  margin: 0 auto;  /* Center the grid */
+}
+
+.link-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  min-height: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.link-box img {
+  width: 60%;
+  max-width: 180px;
+  height: auto;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.link-box h2 {
+  font-size: 1.8rem;
+  align-items: center;
+  color: #2c3e50;
+  margin-top: 10px;
+}
+
+/* Hover Effects */
+.link-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .grid-container {
+    padding: 0 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .link-box {
+    min-height: 250px;
+    padding: 30px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
