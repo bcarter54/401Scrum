@@ -1,0 +1,178 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "401ScrumApp",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Blessings/blessings/count": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "invitation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/invitations/count": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "blessing",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/verses": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "blessing",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invitation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/studygroups/pending": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/studygroups/{StudyGroupID}": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "StudyGroupID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "StudyGroupID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StudyGroup": {
+        "required": [
+          "groupName"
+        ],
+        "type": "object",
+        "properties": {
+          "studyGroupID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groupName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

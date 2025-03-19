@@ -19,10 +19,18 @@ namespace _401ScrumApp.Controllers
 
         // Get Blessing Groups with count
         [HttpGet("blessings/count")]
-        public async Task<IActionResult> GetBlessingCounts()
+        public async Task<IActionResult> GetBlessingCounts([FromQuery] string? invitation = null)
         {
-            var blessings = await _repo.GetBlessingCountsAsync();
-            return Ok(blessings);
+            if (string.IsNullOrEmpty(invitation))
+            {
+                var blessings = await _repo.GetBlessingCountsAsync();
+                return Ok(blessings);
+            }
+            else
+            {
+                var filteredBlessings = await _repo.GetBlessingCountsByInvitationAsync(invitation);
+                return Ok(filteredBlessings);
+            }
         }
 
         [HttpGet("invitations/count")]
@@ -100,6 +108,9 @@ namespace _401ScrumApp.Controllers
 
             return Ok(new { message = "Study group updated successfully." });
         }
+
+
+        
 
 
     }

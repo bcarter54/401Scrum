@@ -20,9 +20,13 @@ namespace _401ScrumApp.Data
         Task<IEnumerable<object>> GetInvitationRecordsAsync(string blessing);
 
 
-
         // Fetch verses filtered by Blessing and/or Invitation Group
         Task<IEnumerable<Verse>> GetFilteredVersesAsync(string blessing, string invitation);
+
+
+        // Fetch Blessing Counts filtered by Invitation
+        Task<IEnumerable<object>> GetBlessingCountsByInvitationAsync(string invitation);
+
         
         Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync();
         
@@ -32,5 +36,7 @@ namespace _401ScrumApp.Data
         
         Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup);
 
+
     }
+
 }

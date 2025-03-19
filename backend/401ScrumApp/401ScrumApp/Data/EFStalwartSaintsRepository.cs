@@ -54,6 +54,21 @@ namespace _401ScrumApp.Data
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<object>> GetBlessingCountsByInvitationAsync(string invitation)
+        {
+            return await _context.Verses
+                .Where(v => v.InvitationGroup == invitation)
+                .GroupBy(v => v.BlessingGroupID)
+                .Select(g => new {
+                    Name = _context.Blessings
+                        .Where(b => b.BlessingGroupID == g.Key)
+                        .Select(b => b.BlessingGroup)
+                        .FirstOrDefault(),
+                    Count = g.Count()
+                })
+                .ToListAsync();
+        }
+
 
         // Get Invitation Groups with count
         public async Task<IEnumerable<object>> GetInvitationRecordsAsync(string blessing)
@@ -124,6 +139,9 @@ namespace _401ScrumApp.Data
         }
     
 
+
+
+        
 
 
     }
