@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Blessings from './Blessings';
 import Videos from './pages/VideosPage';
+import Login from './Login';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 /* import StudyGroups from './StudyGroups'; */
@@ -63,6 +64,7 @@ const App: React.FC = () => {
         {/* <Route path="/testimony" element={<Testimony />} /> */}
         {/* <Route path="/study-groups" element={<StudyGroups />} /> */}
         {/* <Route path="/faqs" element={<Faqs />} /> */}
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
