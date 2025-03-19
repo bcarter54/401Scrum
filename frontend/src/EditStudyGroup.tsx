@@ -20,7 +20,7 @@ function EditStudyGroup() {
       }
 
       const studyGroupIdNum = parseInt(studyGroupId); // Convert to number
-      console.log(studyGroupIdNum)
+      console.log(studyGroupIdNum);
       if (isNaN(studyGroupIdNum)) {
         setError("Study group ID must be a number.");
         setLoading(false);
@@ -40,10 +40,7 @@ function EditStudyGroup() {
         const data = await response.json();
         console.log("Fetched data:", data);
 
-        setStudyGroup({
-          ...data,
-          studyGroupID: data.StudyGroupID, // Ensure property mapping
-        });
+        setStudyGroup(data); // Use data directly since JSON structure already matches
       } catch (error) {
         console.error("Error fetching study group:", error);
         setError("Failed to load study group data.");
@@ -57,8 +54,17 @@ function EditStudyGroup() {
 
   // Save the edited study group data
   const handleSave = async () => {
-    console.log("Passing: " + studyGroupId)
     if (!studyGroup) return;
+    
+    // Create a request body that explicitly includes the ID
+    const requestBody = {
+      studyGroupID: parseInt(studyGroupId!), // Ensure ID is included and is a number
+      groupName: studyGroup.groupName,
+      approved: studyGroup.approved
+    };
+    
+    console.log("Sending JSON:", JSON.stringify(requestBody));
+    console.log("Passing ID: " + studyGroupId);
 
     try {
       const response = await fetch(
@@ -68,7 +74,7 @@ function EditStudyGroup() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(studyGroup),
+          body: JSON.stringify(requestBody), // Send the constructed object
         }
       );
 

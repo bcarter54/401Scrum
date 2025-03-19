@@ -58,10 +58,10 @@ namespace _401ScrumApp.Controllers
         // Add this method to the BlessingsController class
 
         [HttpGet("studygroups/{studyGroupID}")]
-        public async Task<IActionResult> GetStudyGroupById(int studyGroupID)
+        public async Task<IActionResult> GetStudyGroupById(int StudyGroupID)
         {
             // Query the repository to get the specific study group
-            var studyGroup = await _repo.GetStudyGroupByIdAsync(studyGroupID);
+            var studyGroup = await _repo.GetStudyGroupByIdAsync(StudyGroupID);
 
             // If the study group doesn't exist, return a 404 response
             if (studyGroup == null)
@@ -73,15 +73,15 @@ namespace _401ScrumApp.Controllers
             return Ok(studyGroup);
         }
         
-        [HttpPut("studygroups/{studyGroupID}")]
-        public async Task<IActionResult> UpdateStudyGroup(int studyGroupID, [FromBody] StudyGroup updatedStudyGroup)
+        [HttpPut("studygroups/{StudyGroupID}")]
+        public async Task<IActionResult> UpdateStudyGroup(int StudyGroupID, [FromBody] StudyGroup updatedStudyGroup)
         {
-            if (updatedStudyGroup == null || studyGroupID != updatedStudyGroup.StudyGroupID)
+            if (updatedStudyGroup == null || StudyGroupID != updatedStudyGroup.StudyGroupID)
             {
                 return BadRequest(new { message = "Invalid study group data." });
             }
 
-            var existingStudyGroup = await _repo.GetStudyGroupByIdAsync(studyGroupID);
+            var existingStudyGroup = await _repo.GetStudyGroupByIdAsync(StudyGroupID);
             if (existingStudyGroup == null)
             {
                 return NotFound(new { message = "Study group not found." });
