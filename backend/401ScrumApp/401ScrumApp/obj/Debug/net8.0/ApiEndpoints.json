@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "AddVerse",
+    "RelativePath": "api/Blessings/add-verse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newVerse",
+        "Type": "_401ScrumApp.Models.Verse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
     "Method": "GetBlessingCounts",
     "RelativePath": "api/Blessings/blessings/count",
     "HttpMethod": "GET",
@@ -17,6 +33,16 @@
   },
   {
     "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetBlessingGroups",
+    "RelativePath": "api/Blessings/blessings/groups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
     "Method": "GetInvitationCounts",
     "RelativePath": "api/Blessings/invitations/count",
     "HttpMethod": "GET",
@@ -29,6 +55,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetInvitationGroups",
+    "RelativePath": "api/Blessings/invitations/groups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

@@ -136,13 +136,50 @@ namespace _401ScrumApp.Data
                 return await _context.SaveChangesAsync() > 0;
             }
 
+        public async Task<bool> VerseExistsAsync(string verseLocation, string invitationGroup, int blessingGroupID)
+        {
+            return await _context.Verses
+                .AnyAsync(v => v.VerseLocation == verseLocation &&
+                               v.InvitationGroup == invitationGroup &&
+                               v.BlessingGroupID == blessingGroupID);
         }
-    
+
+        public async Task AddVerseAsync(Verse verse)
+        {
+            _context.Verses.Add(verse);
+            await _context.SaveChangesAsync();
+        }
+
+        // Get all unique Invitation Groups from the Verses table
+        public async Task<IEnumerable<string>> GetUniqueInvitationGroupsAsync()
+        {
+            return await _context.Verses
+                .Select(v => v.InvitationGroup)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        // Get all Blessing Groups from the Blessings table
+        public async Task<IEnumerable<string>> GetUniqueBlessingGroupsAsync()
+        {
+            return await _context.Blessings
+                .Select(b => b.BlessingGroup)
+                .Distinct()
+                .ToListAsync();
+        }
 
 
 
-        
+
 
 
     }
+
+
+
+
+
+
+
+}
 

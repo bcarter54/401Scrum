@@ -36,6 +36,12 @@ namespace _401ScrumApp.Data
         
         Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup);
 
+        Task<bool> VerseExistsAsync(string verseLocation, string invitationGroup, int blessingGroupID);
+        Task AddVerseAsync(Verse verse);
+
+        Task<IEnumerable<string>> GetUniqueInvitationGroupsAsync();
+        Task<IEnumerable<string>> GetUniqueBlessingGroupsAsync();
+
 
     }
 
