@@ -4,11 +4,36 @@ import Blessings from './Blessings';
 import Videos from './pages/VideosPage';
 import Admin from './Admin';
 import EditStudyGroup from './EditStudyGroup';
+import Login from './Login';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 /* import StudyGroups from './StudyGroups'; */
 /* import Faqs from './Faqs'; */
 
+// Navbar Component
+const Navbar: React.FC = () => {
+  return (
+    <nav className="navbar">
+      <Link to="/" className="nav-link">Home</Link>
+      <Link to="/Blessings" className="nav-link">Blessings</Link>
+      <Link to="/testimony" className="nav-link">Testimony</Link>
+      <Link to="/study-groups" className="nav-link">Study Groups</Link>
+      <Link to="/videos" className="nav-link">Videos</Link>
+      <Link to="/faqs" className="nav-link">FAQs</Link>
+    </nav>
+  );
+};
+
+// Footer Component
+const Footer: React.FC = () => {
+  return (
+    <footer className="footer">
+      <p>&copy; 2025 Your Website. All Rights Reserved.</p>
+    </footer>
+  );
+};
+
+// HomePage Component
 const HomePage: React.FC = () => {
   return (
     <div className="container">
@@ -51,9 +76,11 @@ const HomePage: React.FC = () => {
   );
 };
 
+// Main App Component
 const App: React.FC = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
         {/* Default HomePage route */}
         <Route path="/" element={<HomePage />} />
@@ -67,7 +94,9 @@ const App: React.FC = () => {
         {/* <Route path="/testimony" element={<Testimony />} /> */}
         {/* <Route path="/study-groups" element={<StudyGroups />} /> */}
         {/* <Route path="/faqs" element={<Faqs />} /> */}
+        <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };
