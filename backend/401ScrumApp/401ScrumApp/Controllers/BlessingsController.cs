@@ -109,8 +109,39 @@ namespace _401ScrumApp.Controllers
             return Ok(new { message = "Study group updated successfully." });
         }
 
+        [HttpPost("add-verse")]
+        public async Task<IActionResult> AddVerse([FromBody] Verse newVerse)
+        {
+            if (newVerse == null)
+                return BadRequest("Invalid request: Missing verse data.");
 
-        
+            bool exists = await _repo.VerseExistsAsync(newVerse.VerseLocation, newVerse.InvitationGroup, newVerse.BlessingGroupID);
+
+            if (exists)
+                return Conflict(new { message = "A verse with this combination already exists." });
+
+            newVerse.Approved = false; // Default approval
+            await _repo.AddVerseAsync(newVerse);
+
+            return CreatedAtAction(nameof(GetFilteredVerses), new { verseLocation = newVerse.VerseLocation }, newVerse);
+        }
+
+        // Get all unique Invitation Groups from the Verses table
+        [HttpGet("invitations/groups")]
+        public async Task<IActionResult> GetInvitationGroups()
+        {
+            var invitationGroups = await _repo.GetUniqueInvitationGroupsAsync();
+            return Ok(invitationGroups);
+        }
+
+        // Get all Blessing Groups from the Blessings table
+        [HttpGet("blessings/groups")]
+        public async Task<IActionResult> GetBlessingGroups()
+        {
+            var blessingGroups = await _repo.GetUniqueBlessingGroupsAsync();
+            return Ok(blessingGroups);
+        }
+
 
 
     }

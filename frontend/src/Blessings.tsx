@@ -11,11 +11,13 @@ import {
 import { Bubble } from 'react-chartjs-2';
 import { Blessing } from './types/Blessing';
 import { Verse } from './types/Verse';
+import { useNavigate } from 'react-router-dom';
 
 // Register necessary Chart.js components
 Chart.register(BubbleController, LinearScale, PointElement, Tooltip, Legend);
 
 const Blessings: React.FC = () => {
+  const navigate = useNavigate();
   // State Management
   const [chartData, setChartData] = useState<{ datasets: any[] }>({
     datasets: [],
@@ -180,7 +182,6 @@ const Blessings: React.FC = () => {
         D. Todd Chrisofferson, "Our Relationship with God," April 2022 General
         Conference
       </h4>
-
       {/* Step 1: Show Toggle Button */}
       {!selectedBlessing && !selectedInvitation && (
         <button
@@ -191,21 +192,18 @@ const Blessings: React.FC = () => {
           Show {toggleType === 'blessing' ? 'Invitations' : 'Blessings'}
         </button>
       )}
-
       {/* Step 2 & 3: Reset Button */}
       {(selectedBlessing || selectedInvitation) && (
         <button onClick={handleReset} style={{ marginLeft: '10px' }}>
           Reset
         </button>
       )}
-
       {/* Step 3: Back Button */}
       {selectedInvitation && selectedBlessing && (
         <button onClick={handleBack} style={{ marginLeft: '10px' }}>
           Back
         </button>
       )}
-
       {/* Bubble Chart */}
       {chartVisible && !loading && chartData.datasets.length > 0 && (
         <div
@@ -242,7 +240,9 @@ const Blessings: React.FC = () => {
         </div>
       )}
 
-      <button>Request a Scripture</button>
+      <button onClick={() => navigate('/request-scripture')}>
+        Request a Scripture
+      </button>
 
       {/* Verse Table */}
       {(selectedBlessing || selectedInvitation) && (
