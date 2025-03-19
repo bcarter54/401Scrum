@@ -1,40 +1,97 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { StudyGroup } from './types/StudyGroup';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { StudyGroup } from "./types/StudyGroup";
 
 function EditStudyGroup() {
   const { studyGroupId } = useParams<{ studyGroupId: string }>(); // Extract studyGroupId from the URL
+  const navigate = useNavigate();
   const [studyGroup, setStudyGroup] = useState<StudyGroup | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch the study group data on component mount
   useEffect(() => {
     const fetchStudyGroup = async () => {
+      console.log("Extracted studyGroupId from URL:", studyGroupId);
+      if (!studyGroupId) {
+        setError("Invalid study group ID.");
+        setLoading(false);
+        return;
+      }
+
+      const studyGroupIdNum = parseInt(studyGroupId); // Convert to number
+      console.log(studyGroupIdNum)
+      if (isNaN(studyGroupIdNum)) {
+        setError("Study group ID must be a number.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log("Fetching study group with ID:", studyGroupIdNum);
         const response = await fetch(
-          `http://localhost:5000/api/Blessings/studygroups/${studyGroupId}`
+          `https://localhost:5000/api/Blessings/studygroups/${studyGroupIdNum}`
         );
-        const data = await response.json();
-      
-        if (response.ok) {
-          // Map the StudyGroupID from the API to studyGroupID for consistency in React
-          setStudyGroup({
-            ...data,
-            studyGroupID: data.StudyGroupID, // Rename property here
-          });
-          setLoading(false);
-        } else {
-          console.error('Error fetching study group:', data);
-          setLoading(false);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      };
-      
+
+        const data = await response.json();
+        console.log("Fetched data:", data);
+
+        setStudyGroup({
+          ...data,
+          studyGroupID: data.StudyGroupID, // Ensure property mapping
+        });
+      } catch (error) {
+        console.error("Error fetching study group:", error);
+        setError("Failed to load study group data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchStudyGroup();
   }, [studyGroupId]); // Fetch data when studyGroupId changes
 
+  // Save the edited study group data
+  const handleSave = async () => {
+    console.log("Passing: " + studyGroupId)
+    if (!studyGroup) return;
+
+    try {
+      const response = await fetch(
+        `https://localhost:5000/api/Blessings/studygroups/${studyGroupId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(studyGroup),
+        }
+      );
+
+      if (response.ok) {
+        alert("Study group updated successfully!");
+        navigate("/admin"); // Redirect after save
+      } else {
+        throw new Error("Error saving study group.");
+      }
+    } catch (error) {
+      setError("Failed to save study group.");
+      console.error("Error saving study group:", error);
+    }
+  };
+
   // If loading, show a loading message
   if (loading) {
     return <div>Loading...</div>;
+  }
+
+  // If there's an error, show an error message
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
   // If no data found, show an error message
@@ -52,7 +109,7 @@ function EditStudyGroup() {
             type="text"
             id="groupName"
             name="groupName"
-            value={studyGroup.groupName}
+            value={studyGroup.groupName || ""}
             onChange={(e) =>
               setStudyGroup({
                 ...studyGroup,
@@ -67,7 +124,7 @@ function EditStudyGroup() {
             type="checkbox"
             id="approved"
             name="approved"
-            checked={studyGroup.approved}
+            checked={studyGroup.approved || false}
             onChange={(e) =>
               setStudyGroup({
                 ...studyGroup,
@@ -77,7 +134,9 @@ function EditStudyGroup() {
           />
         </div>
         <div>
-          <button type="button">Save</button>
+          <button type="button" onClick={handleSave}>
+            Save
+          </button>
         </div>
       </form>
     </div>

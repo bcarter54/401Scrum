@@ -58,7 +58,7 @@ const App: React.FC = () => {
         {/* Default HomePage route */}
         <Route path="/" element={<HomePage />} />
         <Route path="/admin" element={<Admin/>} />
-        <Route path="/edit/:id" element={<EditStudyGroup />} />
+        <Route path="/edit/:studyGroupId" element={<EditStudyGroup />} />
 
         {/* Other Routes */}
         <Route path="/blessings" element={<Blessings />} />

@@ -72,6 +72,34 @@ namespace _401ScrumApp.Controllers
             // Return the study group data as JSON
             return Ok(studyGroup);
         }
+        
+        [HttpPut("studygroups/{studyGroupID}")]
+        public async Task<IActionResult> UpdateStudyGroup(int studyGroupID, [FromBody] StudyGroup updatedStudyGroup)
+        {
+            if (updatedStudyGroup == null || studyGroupID != updatedStudyGroup.StudyGroupID)
+            {
+                return BadRequest(new { message = "Invalid study group data." });
+            }
+
+            var existingStudyGroup = await _repo.GetStudyGroupByIdAsync(studyGroupID);
+            if (existingStudyGroup == null)
+            {
+                return NotFound(new { message = "Study group not found." });
+            }
+
+            // Update properties
+            existingStudyGroup.GroupName = updatedStudyGroup.GroupName;
+            existingStudyGroup.Approved = updatedStudyGroup.Approved;
+
+            bool success = await _repo.UpdateStudyGroupAsync(existingStudyGroup);
+
+            if (!success)
+            {
+                return StatusCode(500, new { message = "Failed to update study group." });
+            }
+
+            return Ok(new { message = "Study group updated successfully." });
+        }
 
 
     }

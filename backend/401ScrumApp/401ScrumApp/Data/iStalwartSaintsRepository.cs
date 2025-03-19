@@ -29,7 +29,8 @@ namespace _401ScrumApp.Data
         // Add this method to the iStalwartSaintsRepository interface
 
         Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId);
-
+        
+        Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup);
 
     }
 }
