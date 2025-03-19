@@ -57,7 +57,7 @@ namespace _401ScrumApp.Controllers
 
         // Add this method to the BlessingsController class
 
-        [HttpGet("studygroups/{studyGroupID}")]
+        [HttpGet("studygroups/{StudyGroupID}")]
         public async Task<IActionResult> GetStudyGroupById(int StudyGroupID)
         {
             // Query the repository to get the specific study group
