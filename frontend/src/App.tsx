@@ -11,7 +11,8 @@ import Videos from './pages/VideosPage';
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <Link to="/blessings" className="nav-link">Blessings</Link>
+      <Link to="/" className="nav-link">Home</Link>
+      <Link to="/Blessings" className="nav-link">Blessings</Link>
       <Link to="/testimony" className="nav-link">Testimony</Link>
       <Link to="/study-groups" className="nav-link">Study Groups</Link>
       <Link to="/videos" className="nav-link">Videos</Link>
