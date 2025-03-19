@@ -107,10 +107,24 @@ namespace _401ScrumApp.Data
         {
             return await _context.StudyGroups.ToListAsync();
         }
-        
-        
+
+            // Implement the GetStudyGroupByIdAsync method
+            public async Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId)
+            {
+                // Query the database to find the study group by studyGroupId
+                return await _context.StudyGroups
+                    .FirstOrDefaultAsync(sg => sg.StudyGroupID == studyGroupId);
+            }
+            public async Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup)
+            {
+                _context.StudyGroups.Update(studyGroup);
+                return await _context.SaveChangesAsync() > 0;
+            }
+
+        }
+    
+
 
 
     }
-}
 

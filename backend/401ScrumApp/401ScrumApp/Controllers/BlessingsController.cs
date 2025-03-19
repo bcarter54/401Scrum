@@ -55,6 +55,52 @@ namespace _401ScrumApp.Controllers
             return Ok(studyGroups);
         }
 
+        // Add this method to the BlessingsController class
+
+        [HttpGet("studygroups/{studyGroupID}")]
+        public async Task<IActionResult> GetStudyGroupById(int StudyGroupID)
+        {
+            // Query the repository to get the specific study group
+            var studyGroup = await _repo.GetStudyGroupByIdAsync(StudyGroupID);
+
+            // If the study group doesn't exist, return a 404 response
+            if (studyGroup == null)
+            {
+                return NotFound(new { message = "Study group not found" });
+            }
+
+            // Return the study group data as JSON
+            return Ok(studyGroup);
+        }
+        
+        [HttpPut("studygroups/{StudyGroupID}")]
+        public async Task<IActionResult> UpdateStudyGroup(int StudyGroupID, [FromBody] StudyGroup updatedStudyGroup)
+        {
+            if (updatedStudyGroup == null || StudyGroupID != updatedStudyGroup.StudyGroupID)
+            {
+                return BadRequest(new { message = "Invalid study group data." });
+            }
+
+            var existingStudyGroup = await _repo.GetStudyGroupByIdAsync(StudyGroupID);
+            if (existingStudyGroup == null)
+            {
+                return NotFound(new { message = "Study group not found." });
+            }
+
+            // Update properties
+            existingStudyGroup.GroupName = updatedStudyGroup.GroupName;
+            existingStudyGroup.Approved = updatedStudyGroup.Approved;
+
+            bool success = await _repo.UpdateStudyGroupAsync(existingStudyGroup);
+
+            if (!success)
+            {
+                return StatusCode(500, new { message = "Failed to update study group." });
+            }
+
+            return Ok(new { message = "Study group updated successfully." });
+        }
+
 
     }
 }
