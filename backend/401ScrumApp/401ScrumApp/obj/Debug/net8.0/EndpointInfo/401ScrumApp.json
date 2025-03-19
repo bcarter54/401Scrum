@@ -74,7 +74,105 @@
           }
         }
       }
+    },
+    "/api/Blessings/studygroups/pending": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/studygroups/{StudyGroupID}": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "StudyGroupID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Blessings"
+        ],
+        "parameters": [
+          {
+            "name": "StudyGroupID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudyGroup"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
-  "components": { }
+  "components": {
+    "schemas": {
+      "StudyGroup": {
+        "required": [
+          "groupName"
+        ],
+        "type": "object",
+        "properties": {
+          "studyGroupID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groupName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }

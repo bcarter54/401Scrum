@@ -33,6 +33,53 @@
   },
   {
     "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetStudyGroupById",
+    "RelativePath": "api/Blessings/studygroups/{StudyGroupID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "StudyGroupID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "UpdateStudyGroup",
+    "RelativePath": "api/Blessings/studygroups/{StudyGroupID}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "StudyGroupID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedStudyGroup",
+        "Type": "_401ScrumApp.Models.StudyGroup",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetPendingStudyGroups",
+    "RelativePath": "api/Blessings/studygroups/pending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
     "Method": "GetFilteredVerses",
     "RelativePath": "api/Blessings/verses",
     "HttpMethod": "GET",
