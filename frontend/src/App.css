@@ -1,42 +1,274 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base Styles */
+/* General page styling */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  margin-top: 60px;
+  padding: 0;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+  color: #333;
+  display: flex; /* Make the body a flex container */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  min-height: 100vh; /* Ensure body fills the screen */
+}
+/* I added a lot of styling to try and make the site look less like a default model */
+
+/* Header */
+.page-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
+
+/* Content Section */
+.content {
+  padding: 20px;
+}
+
+/* Images */
+.image {
+  display: inline-block;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000; /* Make sure it's above other content */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow to the top of the footer */
+}
+
+/* Button link */
+.button-link {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.button-link:hover {
+  background-color: #2980b9;
+}
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;  /* Ensure it spans the whole width */
+  z-index: 1000; /* Make sure it's above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow to make it stand out */
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.nav-link:hover {
+  color: #ffcc00; /* Gold hover effect */
+}
+
+/* Buttons */
+.btn {
+  background-color: #0056b3; /* Match navbar color */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #004494; /* Slightly darker shade */
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  outline: none;
+}
+
+/* Footer */
+footer {
+  background: #073b70;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Forms */
+.form-control {
+  border-radius: 5px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+/* Utility Classes */
+.text-center {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.container {
+  padding: 20px;
+  padding-bottom: 60px; /* Add space at the bottom for the fixed footer */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Overall Page Layout */
+.page-container {
+  display: flex; /* Use flexbox for centering */
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: flex-start; /* Start content from the top */
+  width: 100%;  /* Ensure full width */
+  padding: 20px;
+  background-color: #f5f5f5;
+  max-width: 100%; /* Ensure no content is getting squished */
+}
+
+/* Welcome Section */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 40px; /* Add space between welcome and link boxes */
+  width: 100%;
+}
+
+.welcome {
+  text-align: center;
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Image Box */
+.image-box {
+  align-items: center;
+  width: 80%;   /* Set a max width for image */
+  max-width: 400px;
+  margin: 0 auto 30px;  /* Center image */
+}
+
+.image-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Link Boxes */
+.grid-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;  /* Space between the boxes */
+  width: 100%;
+  max-width: 600px;  /* Limit max width of the boxes */
+  margin: 0 auto;  /* Center the grid */
+}
+
+.link-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  min-height: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.link-box img {
+  width: 60%;
+  max-width: 180px;
+  height: auto;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.link-box h2 {
+  font-size: 1.8rem;
+  align-items: center;
+  color: #2c3e50;
+  margin-top: 10px;
+}
+
+/* Hover Effects */
+.link-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .grid-container {
+    padding: 0 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .link-box {
+    min-height: 250px;
+    padding: 30px;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
