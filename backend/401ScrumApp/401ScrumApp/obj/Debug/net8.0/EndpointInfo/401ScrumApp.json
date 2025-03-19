@@ -10,6 +10,15 @@
         "tags": [
           "Blessings"
         ],
+        "parameters": [
+          {
+            "name": "invitation",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

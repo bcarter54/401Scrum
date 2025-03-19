@@ -25,40 +25,56 @@ const Blessings: React.FC = () => {
     'blessing'
   );
   const [selectedBlessing, setSelectedBlessing] = useState<string | null>(null);
+  const [selectedInvitation, setSelectedInvitation] = useState<string | null>(
+    null
+  );
   const [chartVisible, setChartVisible] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialType, setInitialType] = useState<'blessing' | 'invitation'>(
+    'blessing'
+  );
 
-  // Fetch Blessing or Invitation Data
+  useEffect(() => {
+    if (!selectedBlessing && !selectedInvitation) {
+      setInitialType(toggleType);
+    }
+  }, [toggleType]);
+
+  // Fetch Data for Chart
   useEffect(() => {
     setLoading(true);
-    console.log(`Fetching data for: ${toggleType}`);
+    let url = '';
 
-    const url =
-      toggleType === 'blessing'
-        ? 'https://localhost:5000/api/Blessings/blessings/count'
-        : `https://localhost:5000/api/Blessings/invitations/count?blessing=${selectedBlessing || ''}`;
+    if (selectedBlessing && selectedInvitation) {
+      setChartVisible(false);
+      setLoading(false);
+      return;
+    }
 
-    console.log(`Using URL: ${url}`);
+    if (toggleType === 'blessing') {
+      url = selectedInvitation
+        ? `https://localhost:5000/api/Blessings/blessings/count?invitation=${selectedInvitation}`
+        : 'https://localhost:5000/api/Blessings/blessings/count';
+    } else {
+      url = selectedBlessing
+        ? `https://localhost:5000/api/Blessings/invitations/count?blessing=${selectedBlessing}`
+        : 'https://localhost:5000/api/Blessings/invitations/count';
+    }
 
     axios
       .get<Blessing[]>(url)
       .then((response) => {
-        console.log('API Response:', response.data);
-
         if (response.data.length === 0) {
-          console.warn('No data received');
           setChartData({ datasets: [] });
           return;
         }
 
         const data = response.data.map((item, index) => ({
-          x: index * 80, // Space out the bubbles
-          y: (index % 5) * 15 + 5, // Stagger rows to reduce overlap
-          r: Math.sqrt(item.count) * 6, // Scale bubble size
+          x: index * 80,
+          y: (index % 5) * 15 + 5,
+          r: Math.sqrt(item.count) * 6,
           label: item.name,
         }));
-
-        console.log('Setting chart data:', data);
 
         setChartData({
           datasets: [
@@ -72,26 +88,39 @@ const Blessings: React.FC = () => {
             },
           ],
         });
+        setChartVisible(true);
       })
       .catch((error) => console.error('Error fetching chart data:', error))
       .finally(() => setLoading(false));
-  }, [toggleType, selectedBlessing]);
+  }, [toggleType, selectedBlessing, selectedInvitation]);
 
-  // Fetch Verses when a blessing is selected
+  // Fetch Verses
   useEffect(() => {
-    if (selectedBlessing) {
-      console.log(`Fetching verses for: ${selectedBlessing}`);
-      axios
-        .get<Verse[]>(
-          `https://localhost:5000/api/Blessings/verses?blessing=${selectedBlessing}`
-        )
-        .then((response) => {
-          console.log('Verse Data Response:', response.data);
-          setVerses(response.data);
-        })
-        .catch((error) => console.error('Error fetching verses:', error));
-    }
-  }, [selectedBlessing]);
+    if (!selectedBlessing && !selectedInvitation) return;
+
+    let url = `https://localhost:5000/api/Blessings/verses?`;
+    if (selectedBlessing) url += `blessing=${selectedBlessing}`;
+    if (selectedInvitation) url += `&invitation=${selectedInvitation}`;
+
+    axios
+      .get<Verse[]>(url)
+      .then((response) => {
+        const uniqueVerses = response.data.filter(
+          (verse, index, self) =>
+            index ===
+            self.findIndex(
+              (v) =>
+                v.verseLocation === verse.verseLocation &&
+                v.contents === verse.contents &&
+                v.invitation === verse.invitation &&
+                v.blessing === verse.blessing
+            )
+        );
+
+        setVerses(uniqueVerses);
+      })
+      .catch((error) => console.error('Error fetching verses:', error));
+  }, [selectedBlessing, selectedInvitation]);
 
   // Handle Bubble Click
   const handleBubbleClick = (event: any, elements: any[]) => {
@@ -100,37 +129,88 @@ const Blessings: React.FC = () => {
     const clickedIndex = elements[0].index;
     const clickedLabel = chartData.datasets[0].data[clickedIndex].label;
 
-    console.log(`Clicked on: ${clickedLabel}`);
-
     if (toggleType === 'blessing') {
       setSelectedBlessing(clickedLabel);
-      setToggleType('invitation'); // Switch to filtered Invitations
+      setToggleType('invitation');
+    } else if (selectedBlessing) {
+      setSelectedInvitation(clickedLabel);
+      setChartVisible(false);
+    } else {
+      setSelectedInvitation(clickedLabel);
+      setToggleType('blessing');
+    }
+  };
+
+  // Handle Reset
+  const handleReset = () => {
+    setSelectedBlessing(null);
+    setSelectedInvitation(null);
+    setToggleType(initialType);
+    setChartVisible(true);
+    setVerses([]);
+  };
+
+  // Handle Back - Now correctly restores filtered Step 2 for both paths
+  const handleBack = () => {
+    if (selectedBlessing && selectedInvitation) {
+      // Coming from Step 3, should restore Step 2 (Filtered)
+      if (initialType === 'blessing') {
+        setSelectedInvitation(null); // Restore Invitations filtered by Blessing
+        setToggleType('invitation');
+      } else {
+        setSelectedBlessing(null); // Restore Blessings filtered by Invitation
+        setToggleType('blessing');
+      }
+      setChartVisible(true);
     }
   };
 
   return (
     <div className="container">
-      <h1>Blessings</h1>
+      <h1>Blessings & Invitations</h1>
+      <h3>
+        We ought not to think of God’s plan as a cosmic vending machine where we
+        (1) select a desired blessing, (2) insert the required sum of good
+        works, and (3) the order is promptly delivered... It is essential that
+        we honor and obey His laws, but not every blessing predicated on
+        obedience to law is shaped, designed, and timed according to our
+        expectations.
+      </h3>
+      <h4>
+        D. Todd Chrisofferson, "Our Relationship with God," April 2022 General
+        Conference
+      </h4>
 
-      {/* Toggle Button */}
-      <button
-        onClick={() => {
-          setToggleType(toggleType === 'blessing' ? 'invitation' : 'blessing');
-          setSelectedBlessing(null); // Reset selection when toggling
-        }}
-      >
-        Show {toggleType === 'blessing' ? 'Invitations' : 'Blessings'}
-      </button>
+      {/* Step 1: Show Toggle Button */}
+      {!selectedBlessing && !selectedInvitation && (
+        <button
+          onClick={() =>
+            setToggleType(toggleType === 'blessing' ? 'invitation' : 'blessing')
+          }
+        >
+          Show {toggleType === 'blessing' ? 'Invitations' : 'Blessings'}
+        </button>
+      )}
+
+      {/* Step 2 & 3: Reset Button */}
+      {(selectedBlessing || selectedInvitation) && (
+        <button onClick={handleReset} style={{ marginLeft: '10px' }}>
+          Reset
+        </button>
+      )}
+
+      {/* Step 3: Back Button */}
+      {selectedInvitation && selectedBlessing && (
+        <button onClick={handleBack} style={{ marginLeft: '10px' }}>
+          Back
+        </button>
+      )}
 
       {/* Bubble Chart */}
       {chartVisible && !loading && chartData.datasets.length > 0 && (
         <div
           className="chart-container"
-          style={{
-            width: '800px',
-            height: '500px',
-            margin: '20px auto',
-          }}
+          style={{ width: '800px', height: '500px', margin: '20px auto' }}
         >
           <Bubble
             data={chartData}
@@ -156,16 +236,22 @@ const Blessings: React.FC = () => {
                 x: { display: false, grid: { display: false } },
                 y: { display: false, grid: { display: false } },
               },
-              onClick: handleBubbleClick, // Bubble click handler
+              onClick: handleBubbleClick,
             }}
           />
         </div>
       )}
 
-      {/* Verse Table - Always Rendered for Debugging */}
-      {selectedBlessing && (
+      <button>Request a Scripture</button>
+
+      {/* Verse Table */}
+      {(selectedBlessing || selectedInvitation) && (
         <div className="verse-table-container" style={{ marginTop: '20px' }}>
-          <h2>Verses for {selectedBlessing}</h2>
+          <h2>
+            Verses where:{' '}
+            {selectedBlessing && ` Blessing = "${selectedBlessing}"`}
+            {selectedInvitation && ` Invitation = "${selectedInvitation}"`}
+          </h2>
           <table
             style={{
               width: '100%',
@@ -174,7 +260,7 @@ const Blessings: React.FC = () => {
             }}
           >
             <thead>
-              <tr style={{ backgroundColor: '#f4f4f4' }}>
+              <tr>
                 <th style={tableHeaderStyle}>Verse</th>
                 <th style={tableHeaderStyle}>Contents</th>
                 <th style={tableHeaderStyle}>Invitation</th>
