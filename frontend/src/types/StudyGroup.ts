@@ -1,5 +1,5 @@
 export type StudyGroup = {
-  studyGroupId: number;
+  studyGroupID: number;
   groupName: string;
   approved: boolean;
 };

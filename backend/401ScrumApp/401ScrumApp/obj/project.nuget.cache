@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ODG98SYfXHQ=",
+  "dgSpecHash": "gwxnTHdQW0Q=",
   "success": true,
-  "projectFilePath": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
+  "projectFilePath": "/Users/bcarter/RiderProjects/NewScrum/401Scrum/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
   "expectedPackageFiles": [
     "/Users/bcarter/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/bcarter/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

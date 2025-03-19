@@ -2862,11 +2862,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
+      "projectUniqueName": "/Users/bcarter/RiderProjects/NewScrum/401Scrum/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
       "projectName": "401ScrumApp",
-      "projectPath": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
+      "projectPath": "/Users/bcarter/RiderProjects/NewScrum/401Scrum/backend/401ScrumApp/401ScrumApp/401ScrumApp.csproj",
       "packagesPath": "/Users/bcarter/.nuget/packages/",
-      "outputPath": "/Users/bcarter/RiderProjects/401Scrum-1/backend/401ScrumApp/401ScrumApp/obj/",
+      "outputPath": "/Users/bcarter/RiderProjects/NewScrum/401Scrum/backend/401ScrumApp/401ScrumApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/bcarter/.nuget/NuGet/NuGet.Config"

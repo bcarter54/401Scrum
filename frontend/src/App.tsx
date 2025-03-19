@@ -2,6 +2,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Blessings from './Blessings';
 import Videos from './pages/VideosPage';
+import Admin from './Admin';
+import EditStudyGroup from './EditStudyGroup';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 /* import StudyGroups from './StudyGroups'; */
@@ -55,6 +57,8 @@ const App: React.FC = () => {
       <Routes>
         {/* Default HomePage route */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<Admin/>} />
+        <Route path="/edit/:id" element={<EditStudyGroup />} />
 
         {/* Other Routes */}
         <Route path="/blessings" element={<Blessings />} />

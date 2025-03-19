@@ -55,6 +55,24 @@ namespace _401ScrumApp.Controllers
             return Ok(studyGroups);
         }
 
+        // Add this method to the BlessingsController class
+
+        [HttpGet("studygroups/{studyGroupID}")]
+        public async Task<IActionResult> GetStudyGroupById(int studyGroupID)
+        {
+            // Query the repository to get the specific study group
+            var studyGroup = await _repo.GetStudyGroupByIdAsync(studyGroupID);
+
+            // If the study group doesn't exist, return a 404 response
+            if (studyGroup == null)
+            {
+                return NotFound(new { message = "Study group not found" });
+            }
+
+            // Return the study group data as JSON
+            return Ok(studyGroup);
+        }
+
 
     }
 }

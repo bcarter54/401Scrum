@@ -25,6 +25,11 @@ namespace _401ScrumApp.Data
         Task<IEnumerable<Verse>> GetFilteredVersesAsync(string blessing, string invitation);
         
         Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync();
+        
+        // Add this method to the iStalwartSaintsRepository interface
+
+        Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId);
+
 
     }
 }
