@@ -83,7 +83,7 @@ const RequestScripture: React.FC = () => {
         { headers: { 'Content-Type': 'application/json' } }
       );
       if (response.status === 201) {
-        alert('Verse successfully added!');
+        alert('Verse has been submitted for approval!');
         navigate('/blessings');
       } else {
         alert('Failed to add verse.');

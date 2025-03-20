@@ -265,6 +265,7 @@ const Blessings: React.FC = () => {
                 <th style={tableHeaderStyle}>Contents</th>
                 <th style={tableHeaderStyle}>Invitation</th>
                 <th style={tableHeaderStyle}>Blessing</th>
+                <th style={tableHeaderStyle}>Like</th>
               </tr>
             </thead>
             <tbody>
@@ -287,6 +288,9 @@ const Blessings: React.FC = () => {
                     <td style={tableCellStyle}>{verse.contents}</td>
                     <td style={tableCellStyle}>{verse.invitation}</td>
                     <td style={tableCellStyle}>{verse.blessing}</td>
+                    <td style={{ ...tableCellStyle, textAlign: 'center' }}>
+                      <input type="checkbox" />
+                    </td>
                   </tr>
                 ))
               )}
