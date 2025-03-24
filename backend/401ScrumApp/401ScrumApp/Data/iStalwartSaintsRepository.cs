@@ -23,14 +23,20 @@ namespace _401ScrumApp.Data
 
         // Fetch verses filtered by Blessing and/or Invitation Group
         Task<IEnumerable<Verse>> GetFilteredVersesAsync(string blessing, string invitation);
-        
+
         Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync();
-        
+
         // Add this method to the iStalwartSaintsRepository interface
 
         Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId);
-        
+
         Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup);
+
+        // Fetch study groups with their related events
+        Task<IEnumerable<object>> GetStudyGroupsWithEventsAsync();
+
+        // Allow a user to join a study group
+        Task<bool> JoinStudyGroupAsync(string username, int studyGroupId);
 
     }
 }

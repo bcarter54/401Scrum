@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using _401ScrumApp.Controllers;
 using _401ScrumApp.Data;
 using _401ScrumApp.Models;
+using Microsoft.AspNetCore.Mvc;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace _401ScrumApp.Controllers
 {
@@ -47,7 +50,7 @@ namespace _401ScrumApp.Controllers
             var verses = await _repo.GetFilteredVersesAsync(blessing, invitation);
             return Ok(verses);
         }
-        
+
         [HttpGet("studygroups/pending")]
         public async Task<IActionResult> GetPendingStudyGroups()
         {
@@ -72,7 +75,7 @@ namespace _401ScrumApp.Controllers
             // Return the study group data as JSON
             return Ok(studyGroup);
         }
-        
+
         [HttpPut("studygroups/{StudyGroupID}")]
         public async Task<IActionResult> UpdateStudyGroup(int StudyGroupID, [FromBody] StudyGroup updatedStudyGroup)
         {
@@ -101,6 +104,44 @@ namespace _401ScrumApp.Controllers
             return Ok(new { message = "Study group updated successfully." });
         }
 
+        [HttpGet("studygroups")]
+        public async Task<IActionResult> GetStudyGroupsWithEvents()
+        {
+            var studyGroupsWithEvents = await _repo.GetStudyGroupsWithEventsAsync();
 
+            if (studyGroupsWithEvents == null || !studyGroupsWithEvents.Any())
+            {
+                return NotFound(new { message = "No study groups found." });
+            }
+
+            return Ok(studyGroupsWithEvents);
+        }
+
+        [HttpPost("studygroups/join")]
+        public async Task<IActionResult> JoinStudyGroup([FromBody] Dictionary<string, object> requestData)
+        {
+            if (!requestData.ContainsKey("Username") || !requestData.ContainsKey("StudyGroupID"))
+            {
+                return BadRequest(new { message = "Invalid request data." });
+            }
+
+            string username = requestData["Username"].ToString();
+            if (!int.TryParse(requestData["StudyGroupID"].ToString(), out int studyGroupId))
+            {
+                return BadRequest(new { message = "Invalid StudyGroupID format." });
+            }
+
+            bool success = await _repo.JoinStudyGroupAsync(username, studyGroupId);
+
+            if (!success)
+            {
+                return BadRequest(new { message = "User is already in the study group or an error occurred." });
+            }
+
+            return Ok(new { message = "User successfully joined the study group." });
+        }
     }
 }
+
+
+
