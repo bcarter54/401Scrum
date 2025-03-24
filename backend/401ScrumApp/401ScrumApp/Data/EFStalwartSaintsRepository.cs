@@ -180,16 +180,6 @@ namespace _401ScrumApp.Data
         }
 
 
-    }
-
-
-
-
-
-
-}
-
-
         public async Task<bool> VerseExistsAsync(string verseLocation, string invitationGroup, int blessingGroupID)
         {
             return await _context.Verses
@@ -223,18 +213,16 @@ namespace _401ScrumApp.Data
         }
 
 
-
-
-
-
     }
 
-
-
-
-
-
-
 }
+
+
+       
+
+
+
+
+
 
 

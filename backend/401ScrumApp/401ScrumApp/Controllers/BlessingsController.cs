@@ -138,6 +138,17 @@ namespace _401ScrumApp.Controllers
             {
                 return BadRequest(new { message = "Invalid StudyGroupID format." });
             }
+            bool success = await _repo.JoinStudyGroupAsync(username, studyGroupId);
+
+            if (!success)
+            {
+                return BadRequest(new { message = "User is already in the study group or an error occurred." });
+            }
+
+            return Ok(new { message = "User successfully joined the study group." });
+        }
+    
+
 
         [HttpPost("add-verse")]
         public async Task<IActionResult> AddVerse([FromBody] Verse newVerse)
@@ -172,15 +183,7 @@ namespace _401ScrumApp.Controllers
             return Ok(blessingGroups);
         }
 
-            bool success = await _repo.JoinStudyGroupAsync(username, studyGroupId);
-
-            if (!success)
-            {
-                return BadRequest(new { message = "User is already in the study group or an error occurred." });
-            }
-
-            return Ok(new { message = "User successfully joined the study group." });
-        }
+  
     }
 }
 
