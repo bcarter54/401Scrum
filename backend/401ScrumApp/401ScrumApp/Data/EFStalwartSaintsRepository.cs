@@ -21,10 +21,13 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetBlessingCountsAsync()
         {
             return await _context.Verses
+                .Where(v => v.Approved)  // Ensure only approved verses are counted
                 .GroupBy(v => v.BlessingGroupID)
                 .Select(g => new
                 {
-                    Name = _context.Blessings.Where(b => b.BlessingGroupID == g.Key).Select(b => b.BlessingGroup).FirstOrDefault(),
+                    Name = _context.Blessings.Where(b => b.BlessingGroupID == g.Key)
+                                             .Select(b => b.BlessingGroup)
+                                             .FirstOrDefault(),
                     Count = g.Count()
                 })
                 .ToListAsync();
@@ -34,6 +37,7 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetInvitationCountsAsync()
         {
             return await _context.Verses
+                .Where(v => v.Approved)  // Filter by approved records
                 .GroupBy(v => v.InvitationGroup)
                 .Select(g => new
                 {
@@ -42,11 +46,10 @@ namespace _401ScrumApp.Data
                 })
                 .ToListAsync();
         }
-
         public async Task<IEnumerable<object>> GetInvitationCountsByBlessingAsync(string blessing)
         {
             return await _context.Verses
-                .Where(v => v.BlessingGroupID == _context.Blessings
+                .Where(v => v.Approved && v.BlessingGroupID == _context.Blessings
                     .Where(b => b.BlessingGroup == blessing)
                     .Select(b => b.BlessingGroupID)
                     .FirstOrDefault())
@@ -55,13 +58,28 @@ namespace _401ScrumApp.Data
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<object>> GetBlessingCountsByInvitationAsync(string invitation)
+        {
+            return await _context.Verses
+                .Where(v => v.Approved && v.InvitationGroup == invitation)
+                .GroupBy(v => v.BlessingGroupID)
+                .Select(g => new {
+                    Name = _context.Blessings
+                        .Where(b => b.BlessingGroupID == g.Key)
+                        .Select(b => b.BlessingGroup)
+                        .FirstOrDefault(),
+                    Count = g.Count()
+                })
+                .ToListAsync();
+        }
+
 
         // Get Invitation Groups with count
         public async Task<IEnumerable<object>> GetInvitationRecordsAsync(string blessing)
         {
             return await _context.Verses
-                .Where(v => v.BlessingGroupID ==
-                    _context.Blessings.Where(b => b.BlessingGroup == blessing)
+                .Where(v => v.Approved && v.BlessingGroupID == _context.Blessings
+                    .Where(b => b.BlessingGroup == blessing)
                     .Select(b => b.BlessingGroupID)
                     .FirstOrDefault()) // Ensure correct filtering
                 .Select(v => new
@@ -81,7 +99,7 @@ namespace _401ScrumApp.Data
         // Get Verses filtered by Blessing and Invitation
         public async Task<IEnumerable<Verse>> GetFilteredVersesAsync(string? blessing, string? invitation)
         {
-            var query = _context.Verses.AsQueryable();
+            var query = _context.Verses.Where(v => v.Approved).AsQueryable(); // Only approved verses
 
             if (!string.IsNullOrEmpty(blessing))
             {
@@ -171,5 +189,52 @@ namespace _401ScrumApp.Data
 
 }
 
+
+        public async Task<bool> VerseExistsAsync(string verseLocation, string invitationGroup, int blessingGroupID)
+        {
+            return await _context.Verses
+                .AnyAsync(v => v.VerseLocation == verseLocation &&
+                               v.InvitationGroup == invitationGroup &&
+                               v.BlessingGroupID == blessingGroupID);
+        }
+
+        public async Task AddVerseAsync(Verse verse)
+        {
+            _context.Verses.Add(verse);
+            await _context.SaveChangesAsync();
+        }
+
+        // Get all unique Invitation Groups from the Verses table
+        public async Task<IEnumerable<string>> GetUniqueInvitationGroupsAsync()
+        {
+            return await _context.Verses
+                .Select(v => v.InvitationGroup)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        // Get all Blessing Groups from the Blessings table
+        public async Task<IEnumerable<string>> GetUniqueBlessingGroupsAsync()
+        {
+            return await _context.Blessings
+                .Select(b => b.BlessingGroup)
+                .Distinct()
+                .ToListAsync();
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+}
 
 

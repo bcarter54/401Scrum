@@ -22,10 +22,18 @@ namespace _401ScrumApp.Controllers
 
         // Get Blessing Groups with count
         [HttpGet("blessings/count")]
-        public async Task<IActionResult> GetBlessingCounts()
+        public async Task<IActionResult> GetBlessingCounts([FromQuery] string? invitation = null)
         {
-            var blessings = await _repo.GetBlessingCountsAsync();
-            return Ok(blessings);
+            if (string.IsNullOrEmpty(invitation))
+            {
+                var blessings = await _repo.GetBlessingCountsAsync();
+                return Ok(blessings);
+            }
+            else
+            {
+                var filteredBlessings = await _repo.GetBlessingCountsByInvitationAsync(invitation);
+                return Ok(filteredBlessings);
+            }
         }
 
         [HttpGet("invitations/count")]
@@ -130,6 +138,39 @@ namespace _401ScrumApp.Controllers
             {
                 return BadRequest(new { message = "Invalid StudyGroupID format." });
             }
+
+        [HttpPost("add-verse")]
+        public async Task<IActionResult> AddVerse([FromBody] Verse newVerse)
+        {
+            if (newVerse == null)
+                return BadRequest("Invalid request: Missing verse data.");
+
+            bool exists = await _repo.VerseExistsAsync(newVerse.VerseLocation, newVerse.InvitationGroup, newVerse.BlessingGroupID);
+
+            if (exists)
+                return Conflict(new { message = "A verse with this combination already exists." });
+
+            newVerse.Approved = false; // Default approval
+            await _repo.AddVerseAsync(newVerse);
+
+            return CreatedAtAction(nameof(GetFilteredVerses), new { verseLocation = newVerse.VerseLocation }, newVerse);
+        }
+
+        // Get all unique Invitation Groups from the Verses table
+        [HttpGet("invitations/groups")]
+        public async Task<IActionResult> GetInvitationGroups()
+        {
+            var invitationGroups = await _repo.GetUniqueInvitationGroupsAsync();
+            return Ok(invitationGroups);
+        }
+
+        // Get all Blessing Groups from the Blessings table
+        [HttpGet("blessings/groups")]
+        public async Task<IActionResult> GetBlessingGroups()
+        {
+            var blessingGroups = await _repo.GetUniqueBlessingGroupsAsync();
+            return Ok(blessingGroups);
+        }
 
             bool success = await _repo.JoinStudyGroupAsync(username, studyGroupId);
 

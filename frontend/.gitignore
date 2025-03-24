@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Debug-related files
+debug/
+*.pdb
+*.ilk
+*.exp
+*.tlog
+*.lastbuildstate

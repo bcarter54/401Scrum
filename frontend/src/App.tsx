@@ -5,6 +5,7 @@ import Videos from './pages/VideosPage';
 import Admin from './Admin';
 import EditStudyGroup from './EditStudyGroup';
 import Login from './Login';
+import RequestScripture from './RequestScripture';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 /* import StudyGroups from './StudyGroups'; */
@@ -14,12 +15,24 @@ import Login from './Login';
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <Link to="/" className="nav-link">Home</Link>
-      <Link to="/Blessings" className="nav-link">Blessings</Link>
-      <Link to="/testimony" className="nav-link">Testimony</Link>
-      <Link to="/study-groups" className="nav-link">Study Groups</Link>
-      <Link to="/videos" className="nav-link">Videos</Link>
-      <Link to="/faqs" className="nav-link">FAQs</Link>
+      <Link to="/" className="nav-link">
+        Home
+      </Link>
+      <Link to="/Blessings" className="nav-link">
+        Blessings
+      </Link>
+      <Link to="/testimony" className="nav-link">
+        Testimony
+      </Link>
+      <Link to="/study-groups" className="nav-link">
+        Study Groups
+      </Link>
+      <Link to="/videos" className="nav-link">
+        Videos
+      </Link>
+      <Link to="/faqs" className="nav-link">
+        FAQs
+      </Link>
     </nav>
   );
 };
@@ -84,11 +97,12 @@ const App: React.FC = () => {
       <Routes>
         {/* Default HomePage route */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/admin" element={<Admin/>} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/edit/:studyGroupId" element={<EditStudyGroup />} />
 
         {/* Other Routes */}
         <Route path="/blessings" element={<Blessings />} />
+        <Route path="/request-scripture" element={<RequestScripture />} />
         <Route path="/videos" element={<Videos />} />
         {/* Uncomment these when you have the components ready */}
         {/* <Route path="/testimony" element={<Testimony />} /> */}
