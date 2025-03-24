@@ -39,3 +39,11 @@ secrets.json
 # Windows-specific files
 Thumbs.db
 Desktop.ini
+
+# Debug-related files
+debug/
+*.pdb
+*.ilk
+*.exp
+*.tlog
+*.lastbuildstate
