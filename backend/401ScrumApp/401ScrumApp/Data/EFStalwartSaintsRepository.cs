@@ -1,4 +1,5 @@
-﻿using _401ScrumApp.Data;
+﻿
+using _401ScrumApp.Data;
 using _401ScrumApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -126,18 +127,68 @@ namespace _401ScrumApp.Data
             return await _context.StudyGroups.ToListAsync();
         }
 
-            // Implement the GetStudyGroupByIdAsync method
-            public async Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId)
+        // Implement the GetStudyGroupByIdAsync method
+        public async Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId)
+        {
+            // Query the database to find the study group by studyGroupId
+            return await _context.StudyGroups
+                .FirstOrDefaultAsync(sg => sg.StudyGroupID == studyGroupId);
+        }
+
+        public async Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup)
+        {
+            _context.StudyGroups.Update(studyGroup);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IEnumerable<object>> GetStudyGroupsWithEventsAsync()
+        {
+            return await _context.StudyGroups
+                .Join(_context.Events,
+                    sg => sg.StudyGroupID,
+                    e => e.StudyGroupID,
+                    (sg, e) => new
+                    {
+                        sg.StudyGroupID,
+                        sg.GroupName,
+                        e.Topic,
+                        e.Location,
+                        e.Date,
+                        e.Time
+                    })
+                .ToListAsync();
+        }
+
+        public async Task<bool> JoinStudyGroupAsync(string username, int studyGroupId)
+        {
+            var existingEntry = await _context.UserGroups
+                .FirstOrDefaultAsync(ug => ug.Username == username && ug.StudyGroupID == studyGroupId);
+
+            if (existingEntry != null)
             {
-                // Query the database to find the study group by studyGroupId
-                return await _context.StudyGroups
-                    .FirstOrDefaultAsync(sg => sg.StudyGroupID == studyGroupId);
+                return false; // User is already in the study group
             }
-            public async Task<bool> UpdateStudyGroupAsync(StudyGroup studyGroup)
+
+            var userGroup = new UserGroup
             {
-                _context.StudyGroups.Update(studyGroup);
-                return await _context.SaveChangesAsync() > 0;
-            }
+                Username = username,
+                StudyGroupID = studyGroupId
+            };
+
+            _context.UserGroups.Add(userGroup);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
+    }
+
+
+
+
+
+
+}
+
 
         public async Task<bool> VerseExistsAsync(string verseLocation, string invitationGroup, int blessingGroupID)
         {
@@ -185,4 +236,5 @@ namespace _401ScrumApp.Data
 
 
 }
+
 
