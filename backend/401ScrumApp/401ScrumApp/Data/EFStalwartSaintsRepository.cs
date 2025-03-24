@@ -20,10 +20,13 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetBlessingCountsAsync()
         {
             return await _context.Verses
+                .Where(v => v.Approved)  // Ensure only approved verses are counted
                 .GroupBy(v => v.BlessingGroupID)
                 .Select(g => new
                 {
-                    Name = _context.Blessings.Where(b => b.BlessingGroupID == g.Key).Select(b => b.BlessingGroup).FirstOrDefault(),
+                    Name = _context.Blessings.Where(b => b.BlessingGroupID == g.Key)
+                                             .Select(b => b.BlessingGroup)
+                                             .FirstOrDefault(),
                     Count = g.Count()
                 })
                 .ToListAsync();
@@ -33,6 +36,7 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetInvitationCountsAsync()
         {
             return await _context.Verses
+                .Where(v => v.Approved)  // Filter by approved records
                 .GroupBy(v => v.InvitationGroup)
                 .Select(g => new
                 {
@@ -41,11 +45,10 @@ namespace _401ScrumApp.Data
                 })
                 .ToListAsync();
         }
-
         public async Task<IEnumerable<object>> GetInvitationCountsByBlessingAsync(string blessing)
         {
             return await _context.Verses
-                .Where(v => v.BlessingGroupID == _context.Blessings
+                .Where(v => v.Approved && v.BlessingGroupID == _context.Blessings
                     .Where(b => b.BlessingGroup == blessing)
                     .Select(b => b.BlessingGroupID)
                     .FirstOrDefault())
@@ -57,7 +60,7 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetBlessingCountsByInvitationAsync(string invitation)
         {
             return await _context.Verses
-                .Where(v => v.InvitationGroup == invitation)
+                .Where(v => v.Approved && v.InvitationGroup == invitation)
                 .GroupBy(v => v.BlessingGroupID)
                 .Select(g => new {
                     Name = _context.Blessings
@@ -74,8 +77,8 @@ namespace _401ScrumApp.Data
         public async Task<IEnumerable<object>> GetInvitationRecordsAsync(string blessing)
         {
             return await _context.Verses
-                .Where(v => v.BlessingGroupID ==
-                    _context.Blessings.Where(b => b.BlessingGroup == blessing)
+                .Where(v => v.Approved && v.BlessingGroupID == _context.Blessings
+                    .Where(b => b.BlessingGroup == blessing)
                     .Select(b => b.BlessingGroupID)
                     .FirstOrDefault()) // Ensure correct filtering
                 .Select(v => new
@@ -95,7 +98,7 @@ namespace _401ScrumApp.Data
         // Get Verses filtered by Blessing and Invitation
         public async Task<IEnumerable<Verse>> GetFilteredVersesAsync(string? blessing, string? invitation)
         {
-            var query = _context.Verses.AsQueryable();
+            var query = _context.Verses.Where(v => v.Approved).AsQueryable(); // Only approved verses
 
             if (!string.IsNullOrEmpty(blessing))
             {
@@ -117,7 +120,7 @@ namespace _401ScrumApp.Data
 
             return await query.ToListAsync();
         }
-        
+
         public async Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync()
         {
             return await _context.StudyGroups.ToListAsync();
