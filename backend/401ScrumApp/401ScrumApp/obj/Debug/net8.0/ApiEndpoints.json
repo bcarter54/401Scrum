@@ -69,6 +69,16 @@
   },
   {
     "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "GetStudyGroupsWithEvents",
+    "RelativePath": "api/Blessings/studygroups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
     "Method": "GetStudyGroupById",
     "RelativePath": "api/Blessings/studygroups/{StudyGroupID}",
     "HttpMethod": "GET",
@@ -99,6 +109,22 @@
       {
         "Name": "updatedStudyGroup",
         "Type": "_401ScrumApp.Models.StudyGroup",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.BlessingsController",
+    "Method": "JoinStudyGroup",
+    "RelativePath": "api/Blessings/studygroups/join",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestData",
+        "Type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
       }
     ],

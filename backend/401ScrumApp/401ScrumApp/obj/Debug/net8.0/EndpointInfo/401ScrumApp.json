@@ -150,6 +150,52 @@
         }
       }
     },
+    "/api/Blessings/studygroups": {
+      "get": {
+        "tags": [
+          "Blessings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Blessings/studygroups/join": {
+      "post": {
+        "tags": [
+          "Blessings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": { }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Blessings/add-verse": {
       "post": {
         "tags": [
