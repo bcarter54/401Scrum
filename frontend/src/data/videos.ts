@@ -3,6 +3,7 @@ import { VideoCategory } from "../types/video";
 const videos: VideoCategory[] = [
   {
     category: "Gospel of Jesus Christ",
+    image: "/images/pictures_of_jesus_bible_videos-2.jpg", // Add the image path here
     videos: [
       { title: "The Atonement of Jesus Christ", url: "https://www.youtube.com/embed/rdF6NCs7jL8?si=y0LaSADDZ15qiCRV" },
       { title: "Faith in Christ", url: "https://www.youtube.com/embed/YXmkn7OgHMQ?si=BrKiZC0gSbQvuBB2" }
@@ -10,6 +11,7 @@ const videos: VideoCategory[] = [
   },
   {
     category: "Inspirational Messages",
+    image: "/images/family.jpeg",
     videos: [
       { title: "Finding Hope", url: "https://www.youtube.com/embed/2w49_1a9X0Q?si=YOt_paAZoJ6fcUpQ" },
       { title: "God’s Love", url: "https://www.youtube.com/embed/lOt6z0Edg3U?si=jx8poGP2EjQ47aBl" }
@@ -17,6 +19,7 @@ const videos: VideoCategory[] = [
   },
   {
     category: "Book of Mormon Videos",
+    image: "/images/book-of-mormon.jpg",
     videos: [
       { title: "Nephi’s Journey", url: "https://www.youtube.com/embed/edg-0hAM3iA?si=5BQjrqZ0T5vA7qF5" },
       { title: "Abinadi Testifies", url: "https://www.youtube.com/embed/DquMLCdVUpo?si=qVRMK33UZAwdkCFR" }
@@ -24,6 +27,7 @@ const videos: VideoCategory[] = [
   },
   {
     category: "Bible Videos",
+    image: "/images/bible.jpeg",
     videos: [
       { title: "The Birth of Christ", url: "https://www.youtube.com/embed/yXWoKi5x3lw?si=YBOMEwIOg5YlZVdK" },
       { title: "The Sermon on the Mount", url: "https://www.youtube.com/embed/Ik0aS368Kv0?si=JdT1tIg7WhIgKrVh" }

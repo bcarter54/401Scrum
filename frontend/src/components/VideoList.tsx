@@ -1,32 +1,42 @@
 import React, { useState } from "react";
 import { VideoCategory } from "../types/video";
 
-const VideoList: React.FC<VideoCategory> = ({ category, videos }) => {
-  const [isOpen, setIsOpen] = useState(false); // Controls dropdown visibility
+
+const VideoList: React.FC<VideoCategory> = ({ category, image, videos }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="mb-4">
-      {/* Category Title - Click to Toggle Videos */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left p-3 bg-gray-200 rounded-lg font-semibold text-lg flex justify-between items-center"
-      >
-        {category}
-        <span>{isOpen ? "▲" : "▼"}</span>
-      </button>
+    <div className="mb-5 text-center">
+      {/* Category Image */}
+      <div className="d-flex justify-content-center mb-2">
+        <img
+          src={image}
+          alt={category}
+          className="img-fluid rounded shadow"
+          style={{ width: "200px", height: "130px", objectFit: "cover" }}
+        />
+      </div>
 
-      {/* Videos List (Hidden Until Clicked) */}
+      {/* Category Toggle Button */}
+      <div className="d-flex justify-content-center">
+        <button
+          className="btn btn-outline-secondary w-75 text-uppercase fw-semibold"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {category} <span className="ms-2">{isOpen ? "▲" : "▼"}</span>
+        </button>
+      </div>
+
+      {/* Dropdown Content */}
       {isOpen && (
-        <div className="mt-2 p-3 bg-gray-100 rounded-lg">
+        <div className="mt-3 p-3 bg-light rounded mx-auto" style={{ maxWidth: "600px" }}>
           {videos.map((video, index) => (
-            <div key={index} className="mb-3">
-              <h3 className="text-sm font-semibold mb-2">{video.title}</h3>
-              <div className="relative w-full pt-[56.25%]">
+            <div key={index} className="mb-4">
+              <h5>{video.title}</h5>
+              <div className="ratio ratio-16x9">
                 <iframe
-                  className="absolute top-0 left-0 w-full h-full rounded-md"
                   src={video.url}
                   title={video.title}
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
