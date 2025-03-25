@@ -13,5 +13,8 @@ namespace _401ScrumApp.Models
         public int BlessingGroupID { get; set; }
 
         public bool Approved { get; set; }
+        
+        public string VideoName { get; set; }
+
     }
 }

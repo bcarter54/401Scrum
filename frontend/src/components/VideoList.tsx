@@ -32,11 +32,11 @@ const VideoList: React.FC<VideoCategory> = ({ category, image, videos }) => {
         <div className="mt-3 p-3 bg-light rounded mx-auto" style={{ maxWidth: "600px" }}>
           {videos.map((video, index) => (
             <div key={index} className="mb-4">
-              <h5>{video.title}</h5>
+              <h5>{video.videoName}</h5>
               <div className="ratio ratio-16x9">
                 <iframe
                   src={video.url}
-                  title={video.title}
+                  title={video.videoName}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
@@ -46,6 +46,7 @@ const VideoList: React.FC<VideoCategory> = ({ category, image, videos }) => {
           ))}
         </div>
       )}
+      <br></br>
     </div>
   );
 };

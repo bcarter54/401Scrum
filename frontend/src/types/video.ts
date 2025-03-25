@@ -1,10 +1,11 @@
 export interface Video {
-  title: string;
+  videoID: number;
+  videoName: string;
   url: string;
 }
 
 export interface VideoCategory {
   category: string;
-  image: string; // New property for the category image
+  image: string;
   videos: Video[];
 }
