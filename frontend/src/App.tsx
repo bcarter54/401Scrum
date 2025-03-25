@@ -6,6 +6,8 @@ import Admin from './Admin';
 import EditStudyGroup from './EditStudyGroup';
 import Login from './Login';
 import RequestScripture from './RequestScripture';
+import StudyGroups from './StudyGroups';
+import RequestStudyGroup from './RequestStudyGroup';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 /* import StudyGroups from './StudyGroups'; */
@@ -106,9 +108,10 @@ const App: React.FC = () => {
         <Route path="/videos" element={<Videos />} />
         {/* Uncomment these when you have the components ready */}
         {/* <Route path="/testimony" element={<Testimony />} /> */}
-        {/* <Route path="/study-groups" element={<StudyGroups />} /> */}
+        <Route path="/study-groups" element={<StudyGroups />} />
         {/* <Route path="/faqs" element={<Faqs />} /> */}
         <Route path="/login" element={<Login />} />
+        <Route path="request-group" element={<RequestStudyGroup/>} />
       </Routes>
       <Footer />
     </Router>

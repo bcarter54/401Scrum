@@ -171,6 +171,25 @@ namespace _401ScrumApp.Data
                 .ToListAsync();
         }
 
+        public async Task<bool> DeleteStudyGroupAsync(int StudyGroupID)
+        {
+            var studyGroup = await _context.StudyGroups.FindAsync(StudyGroupID);
+            if (studyGroup == null)
+            {
+                return false;
+            }
+
+            _context.StudyGroups.Remove(studyGroup);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        
+        public async Task AddStudyGroupAsync(StudyGroup studyGroup)
+        {
+            _context.StudyGroups.Add(studyGroup);
+            await _context.SaveChangesAsync();
+        }
+
 
 
 

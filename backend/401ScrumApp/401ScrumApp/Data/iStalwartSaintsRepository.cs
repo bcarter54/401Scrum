@@ -42,6 +42,9 @@ namespace _401ScrumApp.Data
         Task<IEnumerable<string>> GetUniqueInvitationGroupsAsync();
         Task<IEnumerable<string>> GetUniqueBlessingGroupsAsync();
 
+        Task<bool> DeleteStudyGroupAsync(int studyGroupId);
+        
+        Task AddStudyGroupAsync(StudyGroup studyGroup);
 
     }
 
