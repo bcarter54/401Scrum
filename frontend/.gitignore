@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 # Debug-related files
+backend/401ScrumApp/401ScrumApp/obj
 debug/
 *.pdb
 *.ilk
