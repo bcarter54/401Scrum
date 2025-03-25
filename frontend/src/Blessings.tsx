@@ -187,16 +187,16 @@ const Blessings: React.FC = () => {
         {/* Step 2 (Blessings-first path) */}
         {selectedBlessing && !selectedInvitation && (
           <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-            Step 2: Select an Invitation, filtered by Blessing{' '}
-            <em>"{selectedBlessing}"</em>
+            Step 2:<br></br>Select an Invitation<br></br>(filtered by Blessing{' '}
+            <em>"{selectedBlessing}"</em>)
           </p>
         )}
 
         {/* Step 2 (Invitations-first path) */}
         {selectedInvitation && !selectedBlessing && (
           <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-            Step 2: Select a Blessing, filtered by Invitation{' '}
-            <em>"{selectedInvitation}"</em>
+            Step 2:<br></br>Select a Blessing<br></br>(filtered by Invitation{' '}
+            <em>"{selectedInvitation}"</em>)
           </p>
         )}
       </div>
@@ -233,86 +233,59 @@ const Blessings: React.FC = () => {
       {(selectedBlessing || selectedInvitation) && (
         <div style={containerStyle}>
           <h2>
-            Verses where:{' '}
+            Verses where:<br></br>
             {selectedBlessing && ` Blessing = "${selectedBlessing}"`}
+            <br></br>
             {selectedInvitation && ` Invitation = "${selectedInvitation}"`}
           </h2>
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              marginTop: '10px',
-            }}
-          >
-            <thead>
-              <tr>
-                <th style={tableHeaderStyle}>Verse</th>
-                <th style={tableHeaderStyle}>Contents</th>
-                <th style={tableHeaderStyle}>Invitation</th>
-                <th style={tableHeaderStyle}>Blessing</th>
-                <th style={tableHeaderStyle}>Like</th>
-              </tr>
-            </thead>
-            <tbody>
-              {verses.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={4}
-                    style={{ textAlign: 'center', padding: '10px' }}
-                  >
-                    No verses found.
-                  </td>
-                </tr>
-              ) : (
-                verses.map((verse, index) => (
-                  <tr
-                    key={index}
-                    style={index % 2 === 0 ? evenRowStyle : oddRowStyle}
-                  >
-                    <td style={tableCellStyle}>{verse.verseLocation}</td>
-                    <td style={tableCellStyle}>{verse.contents}</td>
-                    <td style={tableCellStyle}>{verse.invitation}</td>
-                    <td style={tableCellStyle}>{verse.blessing}</td>
-                    <td style={{ ...tableCellStyle, textAlign: 'center' }}>
-                      <input type="checkbox" />
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+
+          {verses.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '10px' }}>
+              No verses found.
+            </p>
+          ) : (
+            <div className="verse-cards">
+              {verses.map((verse, index) => (
+                <div key={index} className="verse-card">
+                  <p>
+                    <strong>Verse:</strong>
+                    <br></br>
+                    {verse.verseLocation}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Invitation:</strong>
+                    <br></br>
+                    {verse.invitation}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Blessing:</strong>
+                    <br></br>
+                    {verse.blessing}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Contents:</strong>
+                    <br></br>
+                    {verse.contents}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Like:</strong>{' '}
+                    <input
+                      type="checkbox"
+                      style={{ verticalAlign: 'middle' }}
+                    />
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
   );
-};
-
-/* Table Styling */
-const tableHeaderStyle: React.CSSProperties = {
-  padding: '12px',
-  borderBottom: '2px solid #ccc',
-  textAlign: 'center', // Align text to the left (can change to 'center' or 'right' if needed)
-  fontWeight: 'bold',
-  backgroundColor: '#f4f4f4', // Ensure headers have a distinct background
-};
-
-const tableCellStyle: React.CSSProperties = {
-  padding: '10px',
-  borderBottom: '1px solid #ddd',
-  textAlign: 'left',
-  verticalAlign: 'top',
-  wordWrap: 'break-word',
-  wordBreak: 'break-word',
-  overflowWrap: 'break-word',
-  whiteSpace: 'normal', // Allows multiline text
-};
-
-const evenRowStyle: React.CSSProperties = {
-  backgroundColor: '#f9f9f9',
-};
-
-const oddRowStyle: React.CSSProperties = {
-  backgroundColor: '#ffffff',
 };
 
 export default Blessings;
