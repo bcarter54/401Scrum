@@ -7,6 +7,8 @@ import Admin from './Admin';
 import EditStudyGroup from './EditStudyGroup';
 import Login from './Login';
 import RequestScripture from './RequestScripture';
+import RequestStudyGroup from './RequestStudyGroup';
+import EditVerse from './EditVerse';
 // Uncomment these if you have the components for them
 /* import Testimony from './Testimony'; */
 import StudyGroups from './StudyGroups';
@@ -123,6 +125,8 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/edit/:studyGroupId" element={<EditStudyGroup />} />
+        <Route path="/edit/pending/:verseId" element={<EditVerse/>} />
+
         {/* Other Routes */}
         <Route path="/blessings" element={<Blessings />} />
         <Route path="/request-scripture" element={<RequestScripture />} />
@@ -132,6 +136,7 @@ const App: React.FC = () => {
         <Route path="/study-groups" element={<StudyGroups />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="request-group" element={<RequestStudyGroup/>} />
       </Routes>
       <Footer />
     </Router>

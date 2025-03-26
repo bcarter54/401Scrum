@@ -182,8 +182,70 @@ namespace _401ScrumApp.Controllers
             var blessingGroups = await _repo.GetUniqueBlessingGroupsAsync();
             return Ok(blessingGroups);
         }
+        
+        [HttpDelete("studygroups/{StudyGroupID}")]
+        public async Task<IActionResult> DeleteStudyGroup(int StudyGroupID)
+        {
+            var success = await _repo.DeleteStudyGroupAsync(StudyGroupID);
+    
+            if (!success)
+            {
+                return NotFound(new { message = "Study group not found" });
+            }
 
-  
+            return NoContent(); // 204 No Content on successful deletion
+        }
+        
+        [HttpPost("studygroups")]
+        public async Task<IActionResult> CreateStudyGroup([FromBody] StudyGroup newGroup)
+        {
+            if (newGroup == null || string.IsNullOrEmpty(newGroup.GroupName))
+            {
+                return BadRequest(new { message = "Invalid study group data." });
+            }
+
+            newGroup.Approved = false; // Ensure new groups are unapproved by default
+
+            await _repo.AddStudyGroupAsync(newGroup);
+            return CreatedAtAction(nameof(GetStudyGroupById), new { StudyGroupID = newGroup.StudyGroupID }, newGroup);
+        }
+
+        [HttpGet("verses/pending")]
+        public async Task<IActionResult> GetPendingVerses()
+        {
+            var verses = await _repo.GetPendingVersesAsync();
+            return Ok(verses);
+        }
+
+        [HttpGet("verses/pending/{VerseID}")]
+        public async Task<IActionResult> GetVerseById(int VerseID)
+        {
+            var verse = await _repo.GetVerseByIdAsync(VerseID);
+            if (verse == null)
+            {
+                return NotFound(new { message = "Verse not found" });
+            }
+            return Ok(verse);
+        }
+
+        // Update a verse
+        [HttpPut("verses/pending/{VerseID}")]
+        public async Task<IActionResult> UpdateVerse(int VerseID, [FromBody] Verse updatedVerse)
+        {
+            if (VerseID != updatedVerse.VerseID)
+            {
+                return BadRequest(new { message = "Mismatched verse ID" });
+            }
+
+            var success = await _repo.UpdateVerseAsync(updatedVerse);
+            if (!success)
+            {
+                return StatusCode(500, new { message = "Failed to update verse" });
+            }
+
+            return Ok(new { message = "Verse updated successfully" });
+        }
+
     }
 }
 
