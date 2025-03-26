@@ -6,7 +6,6 @@ import Admin from './Admin';
 import EditStudyGroup from './EditStudyGroup';
 import Login from './Login';
 import RequestScripture from './RequestScripture';
-import StudyGroups from './StudyGroups';
 import RequestStudyGroup from './RequestStudyGroup';
 import EditVerse from './EditVerse';
 // Uncomment these if you have the components for them
