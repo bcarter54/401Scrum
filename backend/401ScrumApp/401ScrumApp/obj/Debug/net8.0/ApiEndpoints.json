@@ -160,5 +160,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "_401ScrumApp.Controllers.VideoApiController",
+    "Method": "GetAllVideos",
+    "RelativePath": "api/VideoApi",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

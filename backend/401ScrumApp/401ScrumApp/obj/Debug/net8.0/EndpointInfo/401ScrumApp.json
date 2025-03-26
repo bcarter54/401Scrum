@@ -250,6 +250,18 @@
           }
         }
       }
+    },
+    "/api/VideoApi": {
+      "get": {
+        "tags": [
+          "VideoApi"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
