@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("401ScrumApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c3346ffed5eddf22618a188bab5d4ef2eff26dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8eff8f51193d0275d3d0c74630ca8d3129926753")]
 [assembly: System.Reflection.AssemblyProductAttribute("401ScrumApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("401ScrumApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
