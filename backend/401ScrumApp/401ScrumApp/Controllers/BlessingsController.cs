@@ -169,9 +169,41 @@ namespace _401ScrumApp.Controllers
             return CreatedAtAction(nameof(GetStudyGroupById), new { StudyGroupID = newGroup.StudyGroupID }, newGroup);
         }
 
+        [HttpGet("verses/pending")]
+        public async Task<IActionResult> GetPendingVerses()
+        {
+            var verses = await _repo.GetPendingVersesAsync();
+            return Ok(verses);
+        }
 
+        [HttpGet("verses/pending/{VerseID}")]
+        public async Task<IActionResult> GetVerseById(int VerseID)
+        {
+            var verse = await _repo.GetVerseByIdAsync(VerseID);
+            if (verse == null)
+            {
+                return NotFound(new { message = "Verse not found" });
+            }
+            return Ok(verse);
+        }
 
+        // Update a verse
+        [HttpPut("verses/pending/{VerseID}")]
+        public async Task<IActionResult> UpdateVerse(int VerseID, [FromBody] Verse updatedVerse)
+        {
+            if (VerseID != updatedVerse.VerseID)
+            {
+                return BadRequest(new { message = "Mismatched verse ID" });
+            }
 
+            var success = await _repo.UpdateVerseAsync(updatedVerse);
+            if (!success)
+            {
+                return StatusCode(500, new { message = "Failed to update verse" });
+            }
+
+            return Ok(new { message = "Verse updated successfully" });
+        }
 
     }
 }

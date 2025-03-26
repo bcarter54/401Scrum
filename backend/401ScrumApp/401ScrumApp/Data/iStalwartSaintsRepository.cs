@@ -30,6 +30,8 @@ namespace _401ScrumApp.Data
         
         Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync();
         
+        Task<IEnumerable<Verse>> GetPendingVersesAsync();
+        
         // Add this method to the iStalwartSaintsRepository interface
 
         Task<StudyGroup> GetStudyGroupByIdAsync(int studyGroupId);
@@ -45,6 +47,9 @@ namespace _401ScrumApp.Data
         Task<bool> DeleteStudyGroupAsync(int studyGroupId);
         
         Task AddStudyGroupAsync(StudyGroup studyGroup);
+        
+        Task<Verse> GetVerseByIdAsync(int verseID);
+        Task<bool> UpdateVerseAsync(Verse updatedVerse);
 
     }
 

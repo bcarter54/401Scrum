@@ -123,7 +123,7 @@ namespace _401ScrumApp.Data
 
         public async Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync()
         {
-            return await _context.StudyGroups.ToListAsync();
+            return await _context.StudyGroups.Where(x => x.Approved == false).ToListAsync();
         }
 
             // Implement the GetStudyGroupByIdAsync method
@@ -189,12 +189,37 @@ namespace _401ScrumApp.Data
             _context.StudyGroups.Add(studyGroup);
             await _context.SaveChangesAsync();
         }
+        
+        public async Task<IEnumerable<Verse>> GetPendingVersesAsync()
+        {
+            return await _context.Verses.Where(x => x.Approved == false).ToListAsync();
+        }
+        
+        // Get a specific verse by ID
+        public async Task<Verse> GetVerseByIdAsync(int verseID)
+        {
+            return await _context.Verses.FirstOrDefaultAsync(v => v.VerseID == verseID);
+        }
 
+        // Update an existing verse
+        public async Task<bool> UpdateVerseAsync(Verse updatedVerse)
+        {
+            var existingVerse = await _context.Verses.FindAsync(updatedVerse.VerseID);
+            if (existingVerse == null)
+            {
+                return false;
+            }
 
+            existingVerse.VerseLocation = updatedVerse.VerseLocation;
+            existingVerse.Contents = updatedVerse.Contents;
+            existingVerse.Invitation = updatedVerse.Invitation;
+            existingVerse.Blessing = updatedVerse.Blessing;
+            existingVerse.Approved = updatedVerse.Approved;
 
-
-
-
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        
     }
 
 
