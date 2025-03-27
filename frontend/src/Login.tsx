@@ -9,29 +9,38 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://localhost:7077/api/auth/login', {
-        username,
-        password,
-      });
-      if (response.data.success) {
-        alert('Login successful!');
-        // You can save token/session here if needed
-      } else {
-        setError('Invalid username or password');
-      }
+      const response = await axios.post(
+        'https://localhost:7077/api/auth/login',
+        {
+          username,
+          password,
+        }
+      );
+
+      alert(response.data); // Will say "Login successful!"
+      setError('');
+      // You can also redirect the user or save a token here if you add one later
     } catch (err) {
-      setError('Login failed');
+      if (err.response && err.response.status === 401) {
+        setError(err.response.data); // will show "Invalid username or password."
+      } else {
+        setError('Login failed. Please try again.');
+      }
     }
   };
 
   return (
     <div className="auth-content">
       <div className="auth-content-inner">
-        <form onSubmit={handleLogin} className="ion-form o-form o-form-edit-mode">
+        <form
+          onSubmit={handleLogin}
+          className="ion-form o-form o-form-edit-mode"
+        >
           <h2>Sign In</h2>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <div>
             <label htmlFor="username">Username</label>
+            <br />
             <input
               type="text"
               id="username"
@@ -42,6 +51,7 @@ const Login = () => {
           </div>
           <div>
             <label htmlFor="password">Password</label>
+            <br />
             <input
               type="password"
               id="password"

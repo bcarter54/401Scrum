@@ -267,6 +267,14 @@ namespace _401ScrumApp.Data
             return true;
         }
 
+        //Check login stuff
+        public async Task<User?> GetUserByCredentialsAsync(string username, string password)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+        }
+
+
     }
 }
 

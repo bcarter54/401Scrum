@@ -59,6 +59,8 @@ namespace _401ScrumApp.Data
         
         Task<Verse> GetVerseByIdAsync(int verseID);
         Task<bool> UpdateVerseAsync(Verse updatedVerse);
+        Task<User?> GetUserByCredentialsAsync(string username, string password);
+
 
     }
 
