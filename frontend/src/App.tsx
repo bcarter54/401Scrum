@@ -13,15 +13,18 @@ import EditVerse from './EditVerse';
 /* import Testimony from './Testimony'; */
 import StudyGroups from './StudyGroups';
 import Faqs from './faqs';
+
+// Navbar Component
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <nav className="navbar">
       {/* Logo on the left */}
-      <img src="/images/logo.jpg" alt="Logo" className="logo" />
+      <img src="/images/sslogo.png" alt="Logo" className="logo" />
       {/* Hamburger Icon */}
       <div
         className={`hamburger ${isOpen ? 'active' : ''}`}
@@ -71,6 +74,8 @@ const Navbar: React.FC = () => {
     </nav>
   );
 };
+
+
 // Footer Component
 const Footer: React.FC = () => {
   return (
@@ -79,16 +84,17 @@ const Footer: React.FC = () => {
     </footer>
   );
 };
+
+
 // HomePage Component
 const HomePage: React.FC = () => {
   return (
     <div className="container">
+      <div className="image-box"><img src="/images/sslogo.png" alt="Logo" /></div>
       {/* Welcome Section */}
-      <h1 className="welcome">Stalwart Saints</h1>
+      <h1 className="welcome">Welcome Home</h1>
       {/* Image of Christ */}
-      <div className="image-box">
-        <img src="/images/christ.jpg" alt="Christ" />
-      </div>
+      <div className="image-box"><img src="/images/christ.jpg" alt="Christ" /></div>
       {/* Links Section */}
       <div className="grid-container">
         <Link to="/blessings" className="link-box">
@@ -115,6 +121,8 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
+
+
 // Main App Component
 const App: React.FC = () => {
   return (
