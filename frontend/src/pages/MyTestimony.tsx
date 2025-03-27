@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import videoCategories from '../data/videos'; // adjust path if needed
 
 type Verse = {
   verse: string;
   invitation: string;
   blessing: string;
+};
+
+type Video = {
+  url: string;
+  videoName: string;
 };
 
 type Event = {
@@ -15,18 +19,11 @@ type Event = {
   time: string;
 };
 
-type VideoCategory = {
-  category: string;
-  videos: {
-    title: string;
-    url: string;
-  }[];
-};
-
 function MyTestimony() {
   const username = 'user1';
 
   const [likedVerses, setLikedVerses] = useState<Verse[]>([]);
+  const [likedVideos, setLikedVideos] = useState<Video[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,21 +31,26 @@ function MyTestimony() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [versesRes, eventsRes] = await Promise.all([
+        const [versesRes, videosRes, eventsRes] = await Promise.all([
           fetch(
             `https://localhost:5000/api/testimony/verses?username=${username}`
+          ),
+          fetch(
+            `https://localhost:5000/api/testimony/videos?username=${username}`
           ),
           fetch(`https://localhost:5000/api/testimony/events`),
         ]);
 
-        if (!versesRes.ok || !eventsRes.ok) {
+        if (!versesRes.ok || !videosRes.ok || !eventsRes.ok) {
           throw new Error('One or more fetches failed.');
         }
 
         const versesData = await versesRes.json();
+        const videosData = await videosRes.json();
         const eventsData = await eventsRes.json();
 
         setLikedVerses(Array.isArray(versesData) ? versesData : []);
+        setLikedVideos(Array.isArray(videosData) ? videosData : []);
         setEvents(Array.isArray(eventsData) ? eventsData : []);
       } catch (err) {
         console.error('Fetch error:', err);
@@ -111,27 +113,22 @@ function MyTestimony() {
       {/* Liked Videos */}
       <div className="border border-gray-400 rounded-xl p-4 shadow-sm">
         <h2 className="text-2xl font-semibold mb-4">Liked Videos</h2>
-        {videoCategories.length > 0 ? (
-          videoCategories.map((cat, idx) => (
-            <div key={idx} className="mb-6">
-              <h3 className="text-lg font-bold mb-2">{cat.category}</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {cat.videos.map((video, vidx) => (
-                  <div
-                    key={vidx}
-                    className="aspect-video border border-gray-400 rounded overflow-hidden shadow"
-                  >
-                    <iframe
-                      className="w-full h-full"
-                      src={video.url}
-                      allowFullScreen
-                      title={video.title}
-                    ></iframe>
-                  </div>
-                ))}
+        {likedVideos.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {likedVideos.map((video, idx) => (
+              <div key={idx} className="text-center">
+                <div className="aspect-video border border-gray-400 rounded overflow-hidden shadow mb-1">
+                  <iframe
+                    className="w-full h-full"
+                    src={video.url}
+                    allowFullScreen
+                    title={`video-${idx}`}
+                  ></iframe>
+                </div>
+                <p className="text-sm">{video.videoName}</p>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <p className="italic text-gray-500">No liked videos found.</p>
         )}
