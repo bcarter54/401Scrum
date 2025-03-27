@@ -20,7 +20,9 @@ project.assets.json
 *.publishsettings
 publish/
 # ASP.NET runtime artifacts
-
+*.db
+*.db-shm
+*.db-wal
 appsettings.Local.json
 appsettings.Development.json
 # Secrets & Configuration
