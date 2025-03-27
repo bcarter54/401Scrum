@@ -10,7 +10,7 @@ import RequestScripture from './RequestScripture';
 import RequestStudyGroup from './RequestStudyGroup';
 import EditVerse from './EditVerse';
 // Uncomment these if you have the components for them
-/* import Testimony from './Testimony'; */
+import Testimony from './pages/MyTestimony';
 import StudyGroups from './StudyGroups';
 import Faqs from './faqs';
 const Navbar: React.FC = () => {
@@ -132,7 +132,7 @@ const App: React.FC = () => {
         <Route path="/request-scripture" element={<RequestScripture />} />
         <Route path="/videos" element={<Videos />} />
         {/* Uncomment these when you have the components ready */}
-        {/* <Route path="/testimony" element={<Testimony />} /> */}
+        <Route path="/testimony" element={<Testimony />} />
         <Route path="/study-groups" element={<StudyGroups />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/login" element={<Login />} />
