@@ -49,10 +49,6 @@ function MyTestimony() {
         const videosData = await videosRes.json();
         const eventsData = await eventsRes.json();
 
-        console.log('Verses:', versesData);
-        console.log('Videos:', videosData);
-        console.log('Events:', eventsData);
-
         setLikedVerses(Array.isArray(versesData) ? versesData : []);
         setLikedVideos(Array.isArray(videosData) ? videosData : []);
         setEvents(Array.isArray(eventsData) ? eventsData : []);
@@ -67,46 +63,60 @@ function MyTestimony() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading) return <div className="text-center mt-8">Loading...</div>;
+  if (error)
+    return <div className="text-center text-red-500 mt-8">{error}</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">My Testimony</h1>
+    <div className="max-w-4xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6 text-center">My Testimony</h1>
 
       {/* Liked Scriptures */}
-      <h2 className="text-xl font-semibold mb-2">Liked Scriptures</h2>
+      <h2 className="text-2xl font-semibold mb-3">Liked Scriptures</h2>
       {likedVerses.length > 0 ? (
-        <table className="table-auto w-full mb-6 border">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-4 py-2 text-left">Verse</th>
-              <th className="px-4 py-2 text-left">Invitation</th>
-              <th className="px-4 py-2 text-left">Blessing</th>
+        <table className="w-full border border-gray-400 mb-8 text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Verse
+              </th>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Invitation
+              </th>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Blessing
+              </th>
             </tr>
           </thead>
           <tbody>
             {likedVerses.map((v, i) => (
-              <tr key={i} className="border-t">
-                <td className="px-4 py-2">{v.verse}</td>
-                <td className="px-4 py-2">{v.invitation}</td>
-                <td className="px-4 py-2">{v.blessing}</td>
+              <tr key={i}>
+                <td className="border border-gray-400 px-3 py-2">{v.verse}</td>
+                <td className="border border-gray-400 px-3 py-2">
+                  {v.invitation}
+                </td>
+                <td className="border border-gray-400 px-3 py-2">
+                  {v.blessing}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p className="italic text-gray-500 mb-6">No liked scriptures found.</p>
+        <p className="italic text-gray-500 mb-8">No liked scriptures found.</p>
       )}
 
       {/* Liked Videos */}
-      <h2 className="text-xl font-semibold mb-2">Liked Videos</h2>
+      <h2 className="text-2xl font-semibold mb-3">Liked Videos</h2>
       {likedVideos.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 border border-gray-400 p-4 mb-8">
           {likedVideos.map((video, idx) => (
-            <div key={idx} className="border rounded p-2">
+            <div
+              key={idx}
+              className="aspect-video border border-gray-400 overflow-hidden"
+            >
               <iframe
-                className="w-full aspect-video"
+                className="w-full h-full"
                 src={video.url}
                 allowFullScreen
                 title={`video-${idx}`}
@@ -115,28 +125,38 @@ function MyTestimony() {
           ))}
         </div>
       ) : (
-        <p className="italic text-gray-500 mb-6">No liked videos found.</p>
+        <p className="italic text-gray-500 mb-8">No liked videos found.</p>
       )}
 
       {/* Upcoming Events */}
-      <h2 className="text-xl font-semibold mb-2">Group Meetings</h2>
+      <h2 className="text-2xl font-semibold mb-3">Group Meetings</h2>
       {events.length > 0 ? (
-        <table className="table-auto w-full border">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-4 py-2 text-left">Date</th>
-              <th className="px-4 py-2 text-left">Time</th>
-              <th className="px-4 py-2 text-left">Topic</th>
-              <th className="px-4 py-2 text-left">Location</th>
+        <table className="w-full border border-gray-400 text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Date
+              </th>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Time
+              </th>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Topic
+              </th>
+              <th className="border border-gray-400 px-3 py-2 text-left">
+                Location
+              </th>
             </tr>
           </thead>
           <tbody>
             {events.map((e) => (
-              <tr key={e.eventID} className="border-t">
-                <td className="px-4 py-2">{e.date}</td>
-                <td className="px-4 py-2">{e.time}</td>
-                <td className="px-4 py-2">{e.topic}</td>
-                <td className="px-4 py-2">{e.location}</td>
+              <tr key={e.eventID}>
+                <td className="border border-gray-400 px-3 py-2">{e.date}</td>
+                <td className="border border-gray-400 px-3 py-2">{e.time}</td>
+                <td className="border border-gray-400 px-3 py-2">{e.topic}</td>
+                <td className="border border-gray-400 px-3 py-2">
+                  {e.location}
+                </td>
               </tr>
             ))}
           </tbody>
