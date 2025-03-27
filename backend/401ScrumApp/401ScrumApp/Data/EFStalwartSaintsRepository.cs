@@ -128,7 +128,9 @@ namespace _401ScrumApp.Data
 
         public async Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync()
         {
-            return await _context.StudyGroups.Where(x => x.Approved == false).ToListAsync();
+            var pendingGroups = _context.StudyGroups.Where(x => x.Approved == false).ToList();
+            
+            return pendingGroups;
         }
 
         // Implement the GetStudyGroupByIdAsync method
