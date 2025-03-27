@@ -1,47 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Verse } from '../types/Verse';
-import { Video } from '../types/video';
+
+type Verse = {
+  verse: string;
+  invitation: string;
+  blessing: string;
+  contents?: string;
+};
+
+type Video = {
+  url: string;
+};
 
 type Event = {
   eventID: number;
   topic: string;
   location: string;
-  date: string; // ISO string
+  date: string;
   time: string;
 };
 
 const MyTestimony = () => {
-  const username = 'user1'; // TODO: replace with auth context/localStorage
+  const username = 'user1'; // Replace this later with actual login
 
   const [likedVerses, setLikedVerses] = useState<Verse[]>([]);
   const [likedVideos, setLikedVideos] = useState<Video[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
+    // Fetch liked verses
     axios
       .get(`/api/testimony/verses?username=${username}`)
       .then((res) => {
-        console.log('Verses response:', res.data);
+        console.log('Verses:', res.data);
         setLikedVerses(Array.isArray(res.data) ? res.data : []);
       })
-      .catch((err) => console.error('Error loading verses', err));
+      .catch((err) => {
+        console.error('Error loading verses', err);
+        setLikedVerses([]);
+      });
 
+    // Fetch liked videos
     axios
       .get(`/api/testimony/videos?username=${username}`)
       .then((res) => {
-        console.log('Videos response:', res.data);
+        console.log('Videos:', res.data);
         setLikedVideos(Array.isArray(res.data) ? res.data : []);
       })
-      .catch((err) => console.error('Error loading videos', err));
+      .catch((err) => {
+        console.error('Error loading videos', err);
+        setLikedVideos([]);
+      });
 
+    // Fetch events
     axios
       .get('/api/testimony/events')
       .then((res) => {
-        console.log('Events response:', res.data);
+        console.log('Events:', res.data);
         setEvents(Array.isArray(res.data) ? res.data : []);
       })
-      .catch((err) => console.error('Error loading events', err));
+      .catch((err) => {
+        console.error('Error loading events', err);
+        setEvents([]);
+      });
   }, []);
 
   return (
@@ -60,9 +81,9 @@ const MyTestimony = () => {
             </tr>
           </thead>
           <tbody>
-            {likedVerses.map((v, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="px-4 py-2">{v.verseLocation}</td>
+            {likedVerses.map((v, i) => (
+              <tr key={i} className="border-t">
+                <td className="px-4 py-2">{v.verse}</td>
                 <td className="px-4 py-2">{v.invitation}</td>
                 <td className="px-4 py-2">{v.blessing}</td>
               </tr>
@@ -70,29 +91,30 @@ const MyTestimony = () => {
           </tbody>
         </table>
       ) : (
-        <p className="text-gray-500 italic mb-6">No liked scriptures found.</p>
+        <p className="italic text-gray-500 mb-6">No liked scriptures found.</p>
       )}
 
       {/* Liked Videos */}
       <h2 className="text-xl font-semibold mb-2">Liked Videos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        {likedVideos.length > 0 ? (
-          likedVideos.map((video, idx) => (
+      {likedVideos.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {likedVideos.map((video, idx) => (
             <div key={idx} className="border rounded p-2">
               <iframe
-                className="w-full aspect-video mb-2"
+                className="w-full aspect-video"
                 src={video.url}
                 allowFullScreen
+                title={`video-${idx}`}
               ></iframe>
             </div>
-          ))
-        ) : (
-          <p className="text-center text-gray-600">No liked videos found.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="italic text-gray-500 mb-6">No liked videos found.</p>
+      )}
 
       {/* Upcoming Events */}
-      <h2 className="text-xl font-semibold mb-2">Upcoming Events</h2>
+      <h2 className="text-xl font-semibold mb-2">Group Meetings</h2>
       {events.length > 0 ? (
         <table className="table-auto w-full border">
           <thead>
@@ -115,7 +137,7 @@ const MyTestimony = () => {
           </tbody>
         </table>
       ) : (
-        <p className="text-gray-500 italic">No upcoming events.</p>
+        <p className="italic text-gray-500">No upcoming events.</p>
       )}
     </div>
   );

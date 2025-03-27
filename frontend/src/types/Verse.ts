@@ -4,5 +4,5 @@ export type Verse = {
   contents: string;
   invitation: string;
   blessing: string;
-  approved: boolean
+  approved: boolean;
 };
