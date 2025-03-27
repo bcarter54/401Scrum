@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { StudyGroup } from "./types/StudyGroup";
+import "./EditStudyGroup.css"
 
 function EditStudyGroup() {
   const { studyGroupId } = useParams<{ studyGroupId: string }>(); // Extract studyGroupId from the URL
@@ -106,7 +107,7 @@ function EditStudyGroup() {
   }
 
   return (
-    <div>
+    <div className="edit-container">
       <h2>Edit Study Group</h2>
       <form>
         <div>
@@ -139,7 +140,7 @@ function EditStudyGroup() {
             }
           />
         </div>
-        <div>
+        <div className="button-container">
           <button type="button" onClick={handleSave}>
             Save
           </button>
@@ -147,6 +148,7 @@ function EditStudyGroup() {
       </form>
     </div>
   );
+  
 }
 
 export default EditStudyGroup;
