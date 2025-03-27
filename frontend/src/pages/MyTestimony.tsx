@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 type Verse = {
   verse: string;
@@ -20,50 +19,56 @@ type Event = {
   time: string;
 };
 
-const MyTestimony = () => {
-  const username = 'user1'; // Replace this later with actual login
+function MyTestimony() {
+  const username = 'user1'; // Replace this later with actual user
 
   const [likedVerses, setLikedVerses] = useState<Verse[]>([]);
   const [likedVideos, setLikedVideos] = useState<Video[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch liked verses
-    axios
-      .get(`/api/testimony/verses?username=${username}`)
-      .then((res) => {
-        console.log('Verses:', res.data);
-        setLikedVerses(Array.isArray(res.data) ? res.data : []);
-      })
-      .catch((err) => {
-        console.error('Error loading verses', err);
-        setLikedVerses([]);
-      });
+    const fetchData = async () => {
+      try {
+        const [versesRes, videosRes, eventsRes] = await Promise.all([
+          fetch(
+            `https://localhost:5000/api/testimony/verses?username=${username}`
+          ),
+          fetch(
+            `https://localhost:5000/api/testimony/videos?username=${username}`
+          ),
+          fetch(`https://localhost:5000/api/testimony/events`),
+        ]);
 
-    // Fetch liked videos
-    axios
-      .get(`/api/testimony/videos?username=${username}`)
-      .then((res) => {
-        console.log('Videos:', res.data);
-        setLikedVideos(Array.isArray(res.data) ? res.data : []);
-      })
-      .catch((err) => {
-        console.error('Error loading videos', err);
-        setLikedVideos([]);
-      });
+        if (!versesRes.ok || !videosRes.ok || !eventsRes.ok) {
+          throw new Error('One or more fetches failed.');
+        }
 
-    // Fetch events
-    axios
-      .get('/api/testimony/events')
-      .then((res) => {
-        console.log('Events:', res.data);
-        setEvents(Array.isArray(res.data) ? res.data : []);
-      })
-      .catch((err) => {
-        console.error('Error loading events', err);
-        setEvents([]);
-      });
+        const versesData = await versesRes.json();
+        const videosData = await videosRes.json();
+        const eventsData = await eventsRes.json();
+
+        console.log('Verses:', versesData);
+        console.log('Videos:', videosData);
+        console.log('Events:', eventsData);
+
+        setLikedVerses(Array.isArray(versesData) ? versesData : []);
+        setLikedVideos(Array.isArray(videosData) ? videosData : []);
+        setEvents(Array.isArray(eventsData) ? eventsData : []);
+      } catch (err) {
+        console.error('Fetch error:', err);
+        setError('Failed to load testimony data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <div className="p-6">
@@ -141,6 +146,6 @@ const MyTestimony = () => {
       )}
     </div>
   );
-};
+}
 
 export default MyTestimony;
