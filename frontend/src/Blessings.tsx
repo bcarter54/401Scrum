@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Chart,
-  BubbleController,
-  LinearScale,
-  PointElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Bubble } from 'react-chartjs-2';
+import { useNavigate } from 'react-router-dom';
 import { Blessing } from './types/Blessing';
 import { Verse } from './types/Verse';
-import { useNavigate } from 'react-router-dom';
-
-// Register necessary Chart.js components
-Chart.register(BubbleController, LinearScale, PointElement, Tooltip, Legend);
+import PackedBubbleChart from './PackedBubbleChart';
+import './Blessings.css';
 
 const Blessings: React.FC = () => {
   const navigate = useNavigate();
-  // State Management
-  const [chartData, setChartData] = useState<{ datasets: any[] }>({
-    datasets: [],
-  });
+
+  const [chartData, setChartData] = useState<
+    { label: string; count: number }[]
+  >([]);
   const [verses, setVerses] = useState<Verse[]>([]);
   const [toggleType, setToggleType] = useState<'blessing' | 'invitation'>(
     'blessing'
@@ -35,6 +25,13 @@ const Blessings: React.FC = () => {
   const [initialType, setInitialType] = useState<'blessing' | 'invitation'>(
     'blessing'
   );
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const containerStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '900px',
+    margin: '0 auto',
+    padding: '0 1rem',
+  };
 
   useEffect(() => {
     if (!selectedBlessing && !selectedInvitation) {
@@ -42,7 +39,6 @@ const Blessings: React.FC = () => {
     }
   }, [toggleType]);
 
-  // Fetch Data for Chart
   useEffect(() => {
     setLoading(true);
     let url = '';
@@ -67,36 +63,20 @@ const Blessings: React.FC = () => {
       .get<Blessing[]>(url)
       .then((response) => {
         if (response.data.length === 0) {
-          setChartData({ datasets: [] });
+          setChartData([]);
           return;
         }
-
-        const data = response.data.map((item, index) => ({
-          x: index * 80,
-          y: (index % 5) * 15 + 5,
-          r: Math.sqrt(item.count) * 6,
+        const data = response.data.map((item) => ({
           label: item.name,
+          count: item.count,
         }));
-
-        setChartData({
-          datasets: [
-            {
-              label:
-                toggleType === 'blessing'
-                  ? 'Blessing Groups'
-                  : 'Invitation Groups',
-              data: data,
-              backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            },
-          ],
-        });
+        setChartData(data);
         setChartVisible(true);
       })
       .catch((error) => console.error('Error fetching chart data:', error))
       .finally(() => setLoading(false));
   }, [toggleType, selectedBlessing, selectedInvitation]);
 
-  // Fetch Verses
   useEffect(() => {
     if (!selectedBlessing && !selectedInvitation) return;
 
@@ -118,32 +98,24 @@ const Blessings: React.FC = () => {
                 v.blessing === verse.blessing
             )
         );
-
         setVerses(uniqueVerses);
       })
       .catch((error) => console.error('Error fetching verses:', error));
   }, [selectedBlessing, selectedInvitation]);
 
-  // Handle Bubble Click
-  const handleBubbleClick = (event: any, elements: any[]) => {
-    if (!elements.length) return;
-
-    const clickedIndex = elements[0].index;
-    const clickedLabel = chartData.datasets[0].data[clickedIndex].label;
-
+  const handleBubbleClick = (label: string) => {
     if (toggleType === 'blessing') {
-      setSelectedBlessing(clickedLabel);
+      setSelectedBlessing(label);
       setToggleType('invitation');
     } else if (selectedBlessing) {
-      setSelectedInvitation(clickedLabel);
+      setSelectedInvitation(label);
       setChartVisible(false);
     } else {
-      setSelectedInvitation(clickedLabel);
+      setSelectedInvitation(label);
       setToggleType('blessing');
     }
   };
 
-  // Handle Reset
   const handleReset = () => {
     setSelectedBlessing(null);
     setSelectedInvitation(null);
@@ -152,15 +124,13 @@ const Blessings: React.FC = () => {
     setVerses([]);
   };
 
-  // Handle Back - Now correctly restores filtered Step 2 for both paths
   const handleBack = () => {
     if (selectedBlessing && selectedInvitation) {
-      // Coming from Step 3, should restore Step 2 (Filtered)
       if (initialType === 'blessing') {
-        setSelectedInvitation(null); // Restore Invitations filtered by Blessing
+        setSelectedInvitation(null);
         setToggleType('invitation');
       } else {
-        setSelectedBlessing(null); // Restore Blessings filtered by Invitation
+        setSelectedBlessing(null);
         setToggleType('blessing');
       }
       setChartVisible(true);
@@ -170,19 +140,30 @@ const Blessings: React.FC = () => {
   return (
     <div className="container">
       <h1>Blessings & Invitations</h1>
-      <h3>
-        We ought not to think of God’s plan as a cosmic vending machine where we
-        (1) select a desired blessing, (2) insert the required sum of good
-        works, and (3) the order is promptly delivered... It is essential that
-        we honor and obey His laws, but not every blessing predicated on
-        obedience to law is shaped, designed, and timed according to our
-        expectations.
-      </h3>
-      <h4>
-        D. Todd Chrisofferson, "Our Relationship with God," April 2022 General
-        Conference
-      </h4>
-      {/* Step 1: Show Toggle Button */}
+
+      <button onClick={() => setShowDisclaimer(!showDisclaimer)}>
+        {showDisclaimer ? 'Hide Disclaimer' : 'Show Disclaimer'}
+      </button>
+
+      {showDisclaimer && (
+        <div
+          style={{ marginTop: '10px', textAlign: 'center', padding: '0 20px' }}
+        >
+          <h3>
+            We ought not to think of God’s plan as a cosmic vending machine
+            where we (1) select a desired blessing, (2) insert the required sum
+            of good works, and (3) the order is promptly delivered... It is
+            essential that we honor and obey His laws, but not every blessing
+            predicated on obedience to law is shaped, designed, and timed
+            according to our expectations.
+          </h3>
+          <h4>
+            — D. Todd Christofferson, "Our Relationship with God," April 2022
+            General Conference
+          </h4>
+        </div>
+      )}
+      <br></br>
       {!selectedBlessing && !selectedInvitation && (
         <button
           onClick={() =>
@@ -192,134 +173,119 @@ const Blessings: React.FC = () => {
           Show {toggleType === 'blessing' ? 'Invitations' : 'Blessings'}
         </button>
       )}
-      {/* Step 2 & 3: Reset Button */}
-      {(selectedBlessing || selectedInvitation) && (
-        <button onClick={handleReset} style={{ marginLeft: '10px' }}>
-          Reset
-        </button>
-      )}
-      {/* Step 3: Back Button */}
-      {selectedInvitation && selectedBlessing && (
-        <button onClick={handleBack} style={{ marginLeft: '10px' }}>
-          Back
-        </button>
-      )}
-      {/* Bubble Chart */}
-      {chartVisible && !loading && chartData.datasets.length > 0 && (
-        <div
-          className="chart-container"
-          style={{ width: '800px', height: '500px', margin: '20px auto' }}
-        >
-          <Bubble
+
+      <div style={{ marginTop: '30px', textAlign: 'center' }}>
+        {/* Step 1 */}
+        {!selectedBlessing && !selectedInvitation && (
+          <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+            {toggleType === 'blessing'
+              ? 'Step 1: Select a Blessing'
+              : 'Step 1: Select an Invitation'}
+          </p>
+        )}
+
+        {/* Step 2 (Blessings-first path) */}
+        {selectedBlessing && !selectedInvitation && (
+          <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+            Step 2:<br></br>Select an Invitation<br></br>(filtered by Blessing{' '}
+            <em>"{selectedBlessing}"</em>)
+          </p>
+        )}
+
+        {/* Step 2 (Invitations-first path) */}
+        {selectedInvitation && !selectedBlessing && (
+          <p style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+            Step 2:<br></br>Select a Blessing<br></br>(filtered by Invitation{' '}
+            <em>"{selectedInvitation}"</em>)
+          </p>
+        )}
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '10px',
+          flexWrap: 'wrap',
+          marginBottom: '10px',
+        }}
+      >
+        <button onClick={handleReset}>Reset</button>
+        {selectedInvitation && selectedBlessing && (
+          <button onClick={handleBack}>Back</button>
+        )}
+      </div>
+
+      {chartVisible && !loading && chartData.length > 0 && (
+        <div style={containerStyle}>
+          <PackedBubbleChart
             data={chartData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false },
-                tooltip: {
-                  callbacks: {
-                    label: function (context) {
-                      const dataPoint = context.raw as {
-                        label: string;
-                        r: number;
-                      };
-                      if (!dataPoint) return '';
-                      return `${dataPoint.label} (Count: ${Math.round((dataPoint.r / 6) ** 2)})`;
-                    },
-                  },
-                },
-              },
-              scales: {
-                x: { display: false, grid: { display: false } },
-                y: { display: false, grid: { display: false } },
-              },
-              onClick: handleBubbleClick,
-            }}
+            onBubbleClick={handleBubbleClick}
           />
         </div>
       )}
-
+      <br></br>
       <button onClick={() => navigate('/request-scripture')}>
         Request a Scripture
       </button>
 
       {/* Verse Table */}
       {(selectedBlessing || selectedInvitation) && (
-        <div className="verse-table-container" style={{ marginTop: '20px' }}>
+        <div style={containerStyle}>
           <h2>
-            Verses where:{' '}
+            Verses where:<br></br>
             {selectedBlessing && ` Blessing = "${selectedBlessing}"`}
+            <br></br>
             {selectedInvitation && ` Invitation = "${selectedInvitation}"`}
           </h2>
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              marginTop: '10px',
-            }}
-          >
-            <thead>
-              <tr>
-                <th style={tableHeaderStyle}>Verse</th>
-                <th style={tableHeaderStyle}>Contents</th>
-                <th style={tableHeaderStyle}>Invitation</th>
-                <th style={tableHeaderStyle}>Blessing</th>
-              </tr>
-            </thead>
-            <tbody>
-              {verses.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={4}
-                    style={{ textAlign: 'center', padding: '10px' }}
-                  >
-                    No verses found.
-                  </td>
-                </tr>
-              ) : (
-                verses.map((verse, index) => (
-                  <tr
-                    key={index}
-                    style={index % 2 === 0 ? evenRowStyle : oddRowStyle}
-                  >
-                    <td style={tableCellStyle}>{verse.verseLocation}</td>
-                    <td style={tableCellStyle}>{verse.contents}</td>
-                    <td style={tableCellStyle}>{verse.invitation}</td>
-                    <td style={tableCellStyle}>{verse.blessing}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+
+          {verses.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '10px' }}>
+              No verses found.
+            </p>
+          ) : (
+            <div className="verse-cards">
+              {verses.map((verse, index) => (
+                <div key={index} className="verse-card">
+                  <p>
+                    <strong>Verse:</strong>
+                    <br></br>
+                    {verse.verseLocation}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Invitation:</strong>
+                    <br></br>
+                    {verse.invitation}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Blessing:</strong>
+                    <br></br>
+                    {verse.blessing}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Contents:</strong>
+                    <br></br>
+                    {verse.contents}
+                  </p>
+                  <br></br>
+                  <p>
+                    <strong>Like:</strong>{' '}
+                    <input
+                      type="checkbox"
+                      style={{ verticalAlign: 'middle' }}
+                    />
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
   );
-};
-
-/* Table Styling */
-const tableHeaderStyle: React.CSSProperties = {
-  padding: '12px',
-  borderBottom: '2px solid #ccc',
-  textAlign: 'center', // Align text to the left (can change to 'center' or 'right' if needed)
-  fontWeight: 'bold',
-  backgroundColor: '#f4f4f4', // Ensure headers have a distinct background
-};
-
-const tableCellStyle: React.CSSProperties = {
-  padding: '10px',
-  borderBottom: '1px solid #ddd',
-  textAlign: 'left', // Adjust this as needed: 'left', 'center', or 'right'
-  verticalAlign: 'top', // Ensures multi-line text aligns properly
-};
-
-const evenRowStyle: React.CSSProperties = {
-  backgroundColor: '#f9f9f9',
-};
-
-const oddRowStyle: React.CSSProperties = {
-  backgroundColor: '#ffffff',
 };
 
 export default Blessings;

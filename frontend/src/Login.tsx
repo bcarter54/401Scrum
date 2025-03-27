@@ -2,42 +2,89 @@ import React from 'react';
 
 const Login = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 text-center">
-        <h2 className="text-2xl font-semibold mb-6">Sign In</h2>
-        <form className="flex flex-col">
-          <label className="text-left text-gray-700 mb-1">Username</label>
-          <br />
-          <input
-            type="text"
-            className="w-full px-3 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <br />
-          <label className="text-left text-gray-700 mb-1">Password</label>
-          <br />
-          <input
-            type="password"
-            className="w-full px-3 py-2 mb-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <br />
-          <button
-            type="button"
-            className="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800"
-          >
-            Next
-          </button>
-        </form>
-        <div className="mt-4 text-sm">
-          <a href="#" className="text-blue-600 hover:underline block mb-2">
-            I forgot my username or password
-          </a>
-          <br />
-          <a href="#" className="text-blue-600 hover:underline">
-            Create a new Account
-          </a>
+    <>
+      <div className="auth-content">
+        <div className="auth-content-inner">
+          <div className="siw-main-view identify primary-auth">
+            <div className="siw-main-header">
+              <div></div>
+            </div>
+            <div className="siw-main-body">
+              <form
+                method="POST"
+                action="/oauth2/default/v1/authorize"
+                id="form20"
+                className="ion-form o-form o-form-edit-mode"
+              >
+                <div className="o-form-content o-form-theme clearfix">
+                  <h2 className="okta-form-title o-form-head">Sign In</h2>
+                  <div className="o-form-info-container"></div>
+                  <div className="o-form-error-container" role="alert"></div>
+                  <div className="o-form-fieldset-container">
+                    <div className="o-form-fieldset o-form-label-top">
+                      <div className="okta-form-label o-form-label">
+                        <label htmlFor="input28">Username</label>
+                      </div>
+                      <div className="o-form-input">
+                        <span className="o-form-input-name-identifier o-form-control okta-form-input-field input-fix">
+                          <input
+                            type="text"
+                            name="identifier"
+                            id="input28"
+                            autoComplete="username"
+                            className=""
+                          />
+                        </span>
+                      </div>
+                      <div className="okta-form-label o-form-label">
+                        <label htmlFor="password">Password</label>
+                      </div>
+                      <div className="o-form-input">
+                        <span className="o-form-input-name-identifier o-form-control okta-form-input-field input-fix">
+                          <input
+                            type="text"
+                            name="identifier"
+                            id="password"
+                            autoComplete="password"
+                            className=""
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="o-form-button-bar">
+                  <input
+                    className="button button-primary"
+                    type="submit"
+                    value="Next"
+                  />
+                </div>
+              </form>
+            </div>
+            <div className="siw-main-footer">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://account.churchofjesuschrist.org/recovery?lang=eng"
+                className="link"
+              >
+                I forgot my username or password
+              </a>
+              <br />
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://account.churchofjesuschrist.org/register?lang=eng"
+                className="link"
+              >
+                Create a new Account
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
