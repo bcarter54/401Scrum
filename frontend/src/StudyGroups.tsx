@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './StudyGroups.css';
 
 interface StudyGroupEvent {
   studyGroupID: number;
@@ -35,6 +36,24 @@ function StudyGroups() {
     fetchStudyGroups();
   }, []);
 
+  // Function to format the date as YYYY-MM-DD
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
+
+  // Function to format military time to AM/PM
+  const formatTime = (timeString: string): string => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  };
+
   const handleJoinGroup = async (studyGroupID: number) => {
     const username = 'YourLoggedInUsername'; // Replace this with actual username from authentication context
 
@@ -67,36 +86,31 @@ function StudyGroups() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container">
-      <h2>Study Groups</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Group Name</th>
-            <th>Topic</th>
-            <th>Location</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {studyGroups.map((group) => (
-            <tr key={group.studyGroupID}>
-              <td>{group.groupName}</td>
-              <td>{group.topic}</td>
-              <td>{group.location}</td>
-              <td>{group.date}</td>
-              <td>{group.time}</td>
-              <td>
-                <button onClick={() => handleJoinGroup(group.studyGroupID)}>
-                  Join Group
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="study-groups-container">
+      <h2 style={{ fontSize: '30px' }}>Study Groups</h2>
+      {studyGroups.map((group) => (
+        <div key={group.studyGroupID} className="study-group-card">
+          <div className="study-group-title">{group.groupName}</div>
+          <div className="study-group-details">
+            <strong>Topic:</strong> {group.topic}
+          </div>
+          <div className="study-group-details">
+            <strong>Location:</strong> {group.location}
+          </div>
+          <div className="study-group-details">
+            <strong>Date:</strong> {formatDate(group.date)}
+          </div>
+          <div className="study-group-details">
+            <strong>Time:</strong> {formatTime(group.time)}
+          </div>
+          <button
+            className="join-button"
+            onClick={() => handleJoinGroup(group.studyGroupID)}
+          >
+            Join Group
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

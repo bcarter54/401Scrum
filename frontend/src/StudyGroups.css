@@ -1,0 +1,62 @@
+.study-groups-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.study-group-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+  width: 100%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.study-group-card:hover {
+  transform: translateY(-4px);
+}
+
+.study-group-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.study-group-details {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.join-button {
+  width: 100%;
+  background-color: #2d5578;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease-in-out;
+}
+
+.join-button:hover {
+  background-color: #1e3e5a; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarges the button */
+}
+
+.join-button:active {
+  background-color: #14283d; /* Even darker when clicked */
+  transform: scale(0.98); /* Slightly shrinks on click for a press effect */
+}
