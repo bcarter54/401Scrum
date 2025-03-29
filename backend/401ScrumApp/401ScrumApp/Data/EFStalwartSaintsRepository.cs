@@ -128,7 +128,9 @@ namespace _401ScrumApp.Data
 
         public async Task<IEnumerable<StudyGroup>> GetPendingStudyGroupsAsync()
         {
-            return await _context.StudyGroups.Where(x => x.Approved == false).ToListAsync();
+            var pendingGroups = _context.StudyGroups.Where(x => x.Approved == false).ToList();
+            
+            return pendingGroups;
         }
 
         // Implement the GetStudyGroupByIdAsync method
@@ -266,6 +268,14 @@ namespace _401ScrumApp.Data
             await _context.SaveChangesAsync();
             return true;
         }
+
+        //Check login stuff
+        public async Task<User?> GetUserByCredentialsAsync(string username, string password)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+        }
+
 
     }
 }
